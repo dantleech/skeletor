@@ -7,6 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Skeletor\Configuration;
+use Skeletor\Skeletor;
 
 class Installer
 {
@@ -38,7 +39,8 @@ class Installer
 
         $this->filesystem->mkdir($orgDir);
 
-        // TODO: Check for presence of skeletor.json
+        $skeletorUrl = sprintf('https://raw.githubusercontent.com/%s/%s/master/skeletor.json', $org, $repo);
+        $config = $this->getSkeletor($skeletorUrl);
 
         $process = new Process(sprintf(
             'git clone git@github.com:%s/%s %s',
@@ -51,6 +53,12 @@ class Installer
 
         if (0 !== $process->getExitCode()) {
             throw new \RuntimeException($process->getErrorOutput());
+        }
+
+        // TODO: Normalize the configuration
+        if (isset($config['extends']) && $config['extends']) {
+            list($org, $repo) = Skeletor::parseRepo($config['extends']);
+            $this->install($output, $org, $repo);
         }
     }
 
@@ -65,9 +73,31 @@ class Installer
             $output->write($data);
         });
 
-
         if (0 !== $process->getExitCode()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
+    }
+
+    private function getSkeletor($skeletorUrl)
+    {
+        $contents = file_get_contents($skeletorUrl);
+
+        if (false === strpos($http_response_header[0], '200')) {
+            throw new \InvalidArgumentException(sprintf(
+                'Could not find skeletor.json file at: %s, got response: %s',
+                $skeletorUrl, $http_response_header[0]
+            ));
+        }
+
+        $config = json_decode($contents, true);
+
+        // TODO: Use JsonDecoder
+        if (false === $config) {
+            throw new \InvalidArgumentException(sprintf(
+                'Could not decode skeletor at "%s"', $skeletorUrl
+            ));
+        }
+
+        return $config;
     }
 }

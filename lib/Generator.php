@@ -61,10 +61,12 @@ class Generator
             ));
         }
 
-        $this->skeletate($baseDir, $targetPath, $config['nodes'], $config['params'], $targetPath);
+        $output->writeln(sprintf('<comment>Skeletating </>%s<comment> in </>%s<comment>:</>', $repo, $targetPath));
+        $output->write(PHP_EOL);
+        $this->skeletate($output, $baseDir, $targetPath, $config['nodes'], $config['params'], $targetPath);
     }
 
-    private function skeletate($currentPath, $targetPath, array $nodes, array $params)
+    private function skeletate(OutputInterface $output, $currentPath, $targetPath, array $nodes, array $params)
     {
         $nodeDefaults = [
             'type' => 'file',
@@ -84,8 +86,17 @@ class Generator
             $path = $currentPath . DIRECTORY_SEPARATOR . $name;
             $tPath = $targetPath . DIRECTORY_SEPARATOR . $name;
 
+            $output->writeln(sprintf('  <info>[</><comment>+</><info>]</> <comment>%s</> %s', $node['type'] == 'dir' ? 'd' : 'f', $tPath));
+
             if ($node['type'] == 'dir') {
                 $this->filesystem->mkdir($tPath);
+                $this->skeletate(
+                    $output,
+                    $currentPath . DIRECTORY_SEPARATOR . $name,
+                    $targetPath . DIRECTORY_SEPARATOR . $name,
+                    $node['nodes'],
+                    $params
+                );
             } elseif ($node['type'] == 'file') {
                 $this->installFile($path, $tPath, $params);
             } else {
@@ -105,6 +116,8 @@ class Generator
                 $sourcePath
             ));
         }
+
+        // TODO: Check for existence of target, only overwrite if force=true
 
         $contents = file_get_contents($sourcePath);
 

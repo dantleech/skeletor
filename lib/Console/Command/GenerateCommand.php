@@ -33,6 +33,9 @@ class GenerateCommand extends Command
         list($org, $repo) = Skeletor::parseRepo($repo);
         $targetPath = $input->getArgument('target') ?: $repo;
 
+        // TODO: if repo is not installed, ask if it should be installed, otherwise
+        //       list the available repos.
+
         $this->generator->generate($output, $org, $repo, $targetPath);
     }
 }
