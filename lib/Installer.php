@@ -2,22 +2,41 @@
 
 namespace Skeletor;
 
-use XdgBaseDir\Xdg;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Skeletor\Configuration;
 use Skeletor\Skeletor;
+use Symfony\Component\Process\ExecutableFinder;
+use Guzzle\Http\Client;
+use Skeletor\HostingInterface;
+use Skeletor\Hosting\GithubHosting;
+use Skeletor\PathInformation;
 
 class Installer
 {
     private $config;
     private $filesystem;
+    private $processFactory;
+    private $executableFinder;
+    private $httpClient;
+    private $hosting;
 
-    public function __construct(Configuration $config, Filesystem $filesystem = null)
+    public function __construct(
+        PathInformation $config,
+        HostingInterface $hosting = null,
+        Filesystem $filesystem = null,
+        ExecutableFinder $executableFinder = null,
+        ProcessFactory $processFactory = null,
+        Client $httpClient = null
+    )
     {
         $this->config = $config;
+        $this->hosting = $hosting ?: new GithubHosting();
         $this->filesystem = $filesystem ?: new Filesystem();
+        $this->executableFinder = $executableFinder ?: new ExecutableFinder();
+        $this->processFactory = $processFactory ?: new ProcessFactory();
+        $this->httpClient = $httpClient ?: new Client();
     }
 
     /**
@@ -25,7 +44,13 @@ class Installer
      */
     public function install(OutputInterface $output, $org, $repo)
     {
-        // TODO: Check for existance of GIT.
+        $gitPath = $this->executableFinder->find('git');
+
+        if (null === $gitPath) {
+            throw new \InvalidArgumentException(sprintf(
+                'You do not seem to have GIT installed on your system'
+            ));
+        }
 
         $repoDir = $this->config->getRepoDir($org, $repo);
 
@@ -37,14 +62,18 @@ class Installer
 
         $orgDir = dirname($repoDir);
 
-        $this->filesystem->mkdir($orgDir);
+        if (!$this->filesystem->exists($orgDir)) {
+            $this->filesystem->mkdir($orgDir);
+        }
 
-        $skeletorUrl = sprintf('https://raw.githubusercontent.com/%s/%s/master/skeletor.json', $org, $repo);
-        $config = $this->getSkeletor($skeletorUrl);
+        // ensure that the repository has a skeletor config file.
+        $this->assertSkeletor($org, $repo);
 
-        $process = new Process(sprintf(
-            'git clone git@github.com:%s/%s %s',
-            $org, $repo, $repoDir
+        $process = $this->processFactory->create(sprintf(
+            '%s clone %s %s',
+            $gitPath,
+            $this->hosting->getRepositoryUrl($org, $repo),
+            $repoDir
         ));
 
         $process->run(function ($type, $data) use ($output) {
@@ -55,16 +84,12 @@ class Installer
             throw new \RuntimeException($process->getErrorOutput());
         }
 
-        // TODO: Normalize the configuration
-        if (isset($config['extends']) && $config['extends']) {
-            list($org, $repo) = Skeletor::parseRepo($config['extends']);
-            $this->install($output, $org, $repo);
-        }
+        return $repoDir;
     }
 
     private function updateExisting(OutputInterface $output, $repoDir)
     {
-        $process = new Process(
+        $process = $this->processFactory->create(
             'git pull origin master',
             $repoDir
         );
@@ -78,26 +103,21 @@ class Installer
         }
     }
 
-    private function getSkeletor($skeletorUrl)
+    private function assertSkeletor($org, $repo)
     {
-        $contents = file_get_contents($skeletorUrl);
+        $url = sprintf(
+            '%s/%s.json',
+            $this->hosting->getRawUrl($org, $repo),
+            Skeletor::CONFIG_NAME
+        );
 
-        if (false === strpos($http_response_header[0], '200')) {
+        $response = $this->httpClient->head($url, null, [ 'exceptions' => false ])->send();
+
+        if (200 !== $response->getStatusCode()) {
             throw new \InvalidArgumentException(sprintf(
-                'Could not find skeletor.json file at: %s, got response: %s',
-                $skeletorUrl, $http_response_header[0]
+                'Could not find skeletor configuration file at URL: %s (HTTP status "%s")',
+                $url, $response->getStatusCode()
             ));
         }
-
-        $config = json_decode($contents, true);
-
-        // TODO: Use JsonDecoder
-        if (false === $config) {
-            throw new \InvalidArgumentException(sprintf(
-                'Could not decode skeletor at "%s"', $skeletorUrl
-            ));
-        }
-
-        return $config;
     }
 }

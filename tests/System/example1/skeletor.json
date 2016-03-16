@@ -1,0 +1,21 @@
+{
+    "title": "Skeletor",
+    "params": {
+        "project_name": "Skeletor",
+        "namespace": "Skeletor\\"
+    },
+    "basedir": "skeletor",
+    "nodes": {
+        "add-children": false,
+        "recursive": false,
+        "nodes": {
+            "lib": { "type": "dir" },
+            "tests": { "type": "dir" },
+            "composer.json": {},
+            "phpunit.xml.dist": {},
+            "README.md": {},
+            ".gitignore": {},
+            ".travis.yml": {}
+        }
+    }
+}

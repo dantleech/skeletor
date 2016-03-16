@@ -3,21 +3,22 @@
 namespace Skeletor;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Skeletor\Filesystem;
 
 class Generator
 {
-    private $config;
+    private $pathInfo;
+    private $filesystem;
 
-    public function __construct(Configuration $config, Filesystem $filesystem = null)
+    public function __construct(PathInformation $pathInfo, Filesystem $filesystem = null)
     {
-        $this->config = $config;
+        $this->pathInfo = $pathInfo;
         $this->filesystem = $filesystem ?: new Filesystem();
     }
 
     public function generate(OutputInterface $output, $org, $repo, $targetPath)
     {
-        $repoDir = $this->config->getRepoDir($org, $repo);
+        $repoDir = $this->pathInfo->getRepoDir($org, $repo);
 
         if (false === $this->filesystem->exists($repoDir)) {
             $output->writeln(Skeletor::skeletor());
@@ -27,30 +28,7 @@ class Generator
             ));
         }
 
-        $configPath = $repoDir . DIRECTORY_SEPARATOR . 'skeletor.json';
-
-        if (false === $this->filesystem->exists($configPath)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Skeletor config "skeleton.json" does not exist in skeleton closet at "%s"',
-                $repoDir
-            ));
-        }
-
-        // TODO: Use JsonParser
-        $config = json_decode(file_get_contents($configPath), true);
-
-        if (false === $config) {
-            throw new \InvalidArgumentException(sprintf(
-                'Could not decode SKLAESON file at "%s"',
-                $configPath
-            ));
-        }
-
-        $config = array_merge([
-            'basedir' => 'skeletor',
-            'params' => [],
-            'nodes' => [],
-        ], $config);
+        $config = $this->configLoader->loadConfig($repoDir);
 
         $baseDir = $repoDir . DIRECTORY_SEPARATOR . $config['basedir'];
 

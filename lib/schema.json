@@ -1,0 +1,41 @@
+{
+	"title": "Skeletor Schema",
+	"type": "object",
+    "additionalProperties": false,
+	"properties": {
+		"author": {
+			"type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" }
+            },
+            "required": [ "name" ]
+		},
+		"title": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+        "params": {
+            "type": "object"
+        },
+		"basedir": {
+            "type": "string"
+		},
+        "files": {
+            "type": "object",
+            "properties": {
+                "*": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+	},
+	"required": [ "title", "description" ]
+}

@@ -15,7 +15,13 @@
         "symfony/filesystem": "^3.0",
         "symfony/process": "^3.0",
         "symfony/debug": "^3.0",
-        "dnoegel/php-xdg-base-dir": "^0.1.0"
+        "dnoegel/php-xdg-base-dir": "^0.1.0",
+        "guzzle/guzzle": "^3.9",
+        "seld/jsonlint": "^1.4",
+        "justinrainbow/json-schema": "^1.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.2"
     },
     "autoload": {
         "psr-4": {

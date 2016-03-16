@@ -13,14 +13,17 @@ use Skeletor\Generator;
 class Skeletor
 {
     const VERSION = '0.1';
+    const CONFIG_NAME = 'skeletor';
 
     public static function run()
     {
         Debug::enable(true);
-        $config = new Configuration();
+        $pathInfo = new PathInformation();
         $application = new Application();
-        $installer = new Installer($config);
-        $generator = new Generator($config);
+
+        $installer = new Installer($pathInfo);
+        $generator = new Generator($pathInfo);
+
         $application->addCommands([
             new InstallCommand($installer),
             new GenerateCommand($generator)

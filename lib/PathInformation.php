@@ -4,7 +4,7 @@ namespace Skeletor;
 
 use XdgBaseDir\Xdg;
 
-class Configuration
+class PathInformation
 {
     private $xdg;
 
