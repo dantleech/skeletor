@@ -14,7 +14,7 @@ class ConfigLoader
     private $validator;
     private $uriRetriever;
 
-    public function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem = null)
     {
         $this->filesystem = $filesystem ?: new Filesystem();
         $this->jsonParser = new JsonParser();
@@ -59,6 +59,9 @@ class ConfigLoader
                 'type' => 'file',
             ]);
         }
+
+        // add some default parameters
+        $config['params']['date.year'] = date('Y');
 
         return $config;
     }

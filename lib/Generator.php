@@ -9,14 +9,23 @@ class Generator
 {
     private $pathInfo;
     private $filesystem;
+    private $configLoader;
+    private $processorRegistry;
 
-    public function __construct(PathInformation $pathInfo, Filesystem $filesystem = null)
+    public function __construct(
+        PathInformation $pathInfo, 
+        ConfigLoader $configLoader, 
+        ProcessorRegistry $processorRegistry,
+        Filesystem $filesystem = null
+    )
     {
         $this->pathInfo = $pathInfo;
+        $this->configLoader = $configLoader;
         $this->filesystem = $filesystem ?: new Filesystem();
+        $this->processorRegistry = $processorRegistry;
     }
 
-    public function generate(OutputInterface $output, $org, $repo, $targetPath)
+    public function generate(OutputInterface $output, $org, $repo, $dstRootPath)
     {
         $repoDir = $this->pathInfo->getRepoDir($org, $repo);
 
@@ -28,90 +37,39 @@ class Generator
             ));
         }
 
-        $config = $this->configLoader->loadConfig($repoDir);
+        $config = $this->configLoader->load($repoDir);
 
-        $baseDir = $repoDir . DIRECTORY_SEPARATOR . $config['basedir'];
+        $srcRootPath = $repoDir . DIRECTORY_SEPARATOR . $config['basedir'];
 
-        if (false === $this->filesystem->exists($baseDir)) {
+        if (false === $this->filesystem->exists($srcRootPath)) {
             throw new \RuntimeException(sprintf(
                 'Basedir "%s" does not exist for skeleton closet "%s"',
-                $baseDir, $repoDir
+                $srcRootPath, $repoDir
             ));
         }
 
-        $output->writeln(sprintf('<comment>Skeletating </>%s<comment> in </>%s<comment>:</>', $repo, $targetPath));
+        $output->writeln(sprintf('<comment>Skeletating </>%s<comment> in </>%s<comment>:</>', $repo, $dstRootPath));
         $output->write(PHP_EOL);
-        $this->skeletate($output, $baseDir, $targetPath, $config['nodes'], $config['params'], $targetPath);
-    }
 
-    private function skeletate(OutputInterface $output, $currentPath, $targetPath, array $nodes, array $params)
-    {
-        $nodeDefaults = [
-            'type' => 'file',
-            'nodes' => [],
-        ];
-        foreach ($nodes as $name => $node) {
-            if ($diff = array_diff(array_keys($node), array_keys($nodeDefaults))) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Invalid node options: "%s", valid node options: "%s"',
-                    implode('", "', $diff),
-                    implode('", "', array_keys($nodeDefaults))
-                ));
+        foreach ($config['files'] as $nodePath => $nodeConfig) {
+
+            // the key is assumed to be the destination filename unless
+            // explicitly defined.
+            if (isset($nodeConfig['path'])) {
+                $nodePath = $nodeConfig['path'];
             }
 
-            $node = array_merge($nodeDefaults, $node);
+            $context = new NodeContext(
+                $srcRootPath,
+                $dstRootPath,
+                $nodePath,
+                $nodeConfig,
+                $config['params']
+            );
 
-            $path = $currentPath . DIRECTORY_SEPARATOR . $name;
-            $tPath = $targetPath . DIRECTORY_SEPARATOR . $name;
-
-            $output->writeln(sprintf('  <info>[</><comment>+</><info>]</> <comment>%s</> %s', $node['type'] == 'dir' ? 'd' : 'f', $tPath));
-
-            if ($node['type'] == 'dir') {
-                $this->filesystem->mkdir($tPath);
-                $this->skeletate(
-                    $output,
-                    $currentPath . DIRECTORY_SEPARATOR . $name,
-                    $targetPath . DIRECTORY_SEPARATOR . $name,
-                    $node['nodes'],
-                    $params
-                );
-            } elseif ($node['type'] == 'file') {
-                $this->installFile($path, $tPath, $params);
-            } else {
-                throw new \RuntimeException(sprintf(
-                    'Invalid node type "%s", must be either "file" or "dir"',
-                    $node['type']
-                ));
-            }
-        }
-    }
-
-    private function installFile($sourcePath, $destPath, array $params)
-    {
-        if (!$this->filesystem->exists($sourcePath)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Source file "%s" does not exist.',
-                $sourcePath
-            ));
-        }
-
-        // TODO: Check for existence of target, only overwrite if force=true
-
-        $contents = file_get_contents($sourcePath);
-
-        preg_match_all('{%\s*(.*?)\s*%}', $contents, $matches);
-        $tokens = $matches[1];
-
-        if ($diff = array_diff($tokens, array_keys($params))) {
-            throw new \InvalidArgumentException(sprintf(
-                'Missing tokens "%s" for skeleton "%s"',
-                implode('", "', $diff), $sourcePath
-            ));
-        }
-
-        foreach ($params as $tokenName => $tokenValue) {
-            $contents = preg_replace('{%\s*' . $tokenName . '\s*%}', $tokenValue, $contents);
-            $this->filesystem->dumpFile($destPath, $contents);
+            $output->writeln(sprintf(' + [%s] %s', $nodeConfig['type'], $context->getAbsDstPath()));
+            $processor = $this->processorRegistry->get($nodeConfig['type']);
+            $processor->process($context);
         }
     }
 }

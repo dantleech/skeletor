@@ -9,6 +9,7 @@ use Skeletor\Console\Command\GenerateCommand;
 use Symfony\Component\Debug\Debug;
 use Skeletor\Console\Command\InstallCommand;
 use Skeletor\Generator;
+use Skeletor\ConfigLoader;
 
 class Skeletor
 {
@@ -18,17 +19,8 @@ class Skeletor
     public static function run()
     {
         Debug::enable(true);
-        $pathInfo = new PathInformation();
-        $application = new Application();
-
-        $installer = new Installer($pathInfo);
-        $generator = new Generator($pathInfo);
-
-        $application->addCommands([
-            new InstallCommand($installer),
-            new GenerateCommand($generator)
-        ]);
-        $application->run();
+        $container = new Container();
+        $container['application']->run();
     }
 
     public static function skeletor()

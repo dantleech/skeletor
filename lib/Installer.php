@@ -2,7 +2,6 @@
 
 namespace Skeletor;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Skeletor\Configuration;
