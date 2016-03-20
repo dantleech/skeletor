@@ -10,19 +10,19 @@ class Generator
     private $pathInfo;
     private $filesystem;
     private $configLoader;
-    private $processorRegistry;
+    private $handlerRegistry;
 
     public function __construct(
         PathInformation $pathInfo, 
         ConfigLoader $configLoader, 
-        ProcessorRegistry $processorRegistry,
+        HandlerRegistry $handlerRegistry,
         Filesystem $filesystem = null
     )
     {
         $this->pathInfo = $pathInfo;
         $this->configLoader = $configLoader;
         $this->filesystem = $filesystem ?: new Filesystem();
-        $this->processorRegistry = $processorRegistry;
+        $this->handlerRegistry = $handlerRegistry;
     }
 
     public function generate(OutputInterface $output, $org, $repo, $dstRootPath)
@@ -42,19 +42,21 @@ class Generator
         $srcRootPath = $repoDir . DIRECTORY_SEPARATOR . $config['basedir'];
 
         if (false === $this->filesystem->exists($srcRootPath)) {
-            throw new \RuntimeException(sprintf(
-                'Basedir "%s" does not exist for skeleton closet "%s"',
+            throw new Exception\InvalidSkeletorException(sprintf(
+                'Basedir "%s" does not exist for skeletor "%s"',
                 $srcRootPath, $repoDir
             ));
         }
 
-        $output->writeln(sprintf('<comment>Skeletating </>%s<comment> in </>%s<comment>:</>', $repo, $dstRootPath));
+        $output->writeln(sprintf('<info>Generating </>%s<info> skeletor in </>%s<info>:</>', $repo, $dstRootPath));
         $output->write(PHP_EOL);
 
         foreach ($config['files'] as $nodePath => $nodeConfig) {
 
             // the key is assumed to be the destination filename unless
             // explicitly defined.
+            //
+            // TODO: Can this be done in the ConifgLoader?
             if (isset($nodeConfig['path'])) {
                 $nodePath = $nodeConfig['path'];
             }
@@ -67,9 +69,9 @@ class Generator
                 $config['params']
             );
 
-            $output->writeln(sprintf(' + [%s] %s', $nodeConfig['type'], $context->getAbsDstPath()));
-            $processor = $this->processorRegistry->get($nodeConfig['type']);
-            $processor->process($context);
+            $output->writeln(sprintf(" [+] <comment>%'.-12s</> ./%s", $nodeConfig['type'], $context->getAbsDstPath()));
+            $handler = $this->handlerRegistry->get($nodeConfig['type']);
+            $handler->process($context);
         }
     }
 }

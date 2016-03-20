@@ -54,9 +54,11 @@ class ConfigLoader
             'files' => []
         ]);
 
+        // use "template" as the default type - assuming that this
+        // will be the most common use case.
         foreach ($config['files'] as $index => $file) {
             $config['files'][$index] = $this->buildConfig($file, [
-                'type' => 'file',
+                'type' => 'template',
             ]);
         }
 

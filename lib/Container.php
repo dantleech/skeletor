@@ -32,7 +32,7 @@ class Container extends BaseContainer
             return new Generator(
                 $container['path_info'],
                 $container['config_loader'],
-                $container['processor_registry']
+                $container['handler_registry']
             );
         };
 
@@ -42,18 +42,23 @@ class Container extends BaseContainer
             );
         };
 
-        $this['processor.file'] = function ($container) {
-            return new Processor\FileProcessor();
+        $this['handler.file'] = function ($container) {
+            return new Handler\FileHandler();
         };
 
-        $this['processor.dir'] = function ($container) {
-            return new Processor\DirectoryProcessor();
+        $this['handler.dir'] = function ($container) {
+            return new Handler\DirectoryHandler();
         };
 
-        $this['processor_registry'] = function ($container) {
-            return new ProcessorRegistry([
-                'file' => $container['processor.file'],
-                'dir' => $container['processor.dir'],
+        $this['handler.template'] = function ($container) {
+            return new Handler\TemplateHandler();
+        };
+
+        $this['handler_registry'] = function ($container) {
+            return new HandlerRegistry([
+                'file' => $container['handler.file'],
+                'dir' => $container['handler.dir'],
+                'template' => $container['handler.template'],
             ]);
         };
 

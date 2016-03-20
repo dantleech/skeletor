@@ -1,30 +1,23 @@
 <?php
 
-namespace Skeletor\Processor;
+namespace Skeletor\Handler;
 
 use Skeletor\Filesystem;
 use Skeletor\NodeContext;
 
-class FileProcessor
+/**
+ * Simple template processor, replaces {{ mustache-like }} tokens with
+ * parameters.
+ */
+class TemplateHandler extends FileHandler
 {
-    public function __construct(Filesystem $filesystem = null)
-    {
-        $this->filesystem = $filesystem ?: new Filesystem();
-    }
-
     public function process(NodeContext $context)
     {
+        $this->assertSrcFileExists($context);
+
         $srcPath = $context->getAbsSrcPath();
         $params = $context->getParams();
 
-        if (!$this->filesystem->exists($srcPath)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Source file "%s" does not exist.',
-                $srcPath
-            ));
-        }
-
-        // TODO: Check for existence of target, only overwrite if force=true
 
         $contents = file_get_contents($srcPath);
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Skeletor\Processor;
+namespace Skeletor\Handler;
 
 use Skeletor\Filesystem;
 use Skeletor\NodeContext;
 
-class DirectoryProcessor
+class DirectoryHandler
 {
     private $filesystem;
 
