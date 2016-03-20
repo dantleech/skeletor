@@ -1,20 +1,29 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor\Tests\Unit;
 
-use Skeletor\Configuration;
-use Skeletor\ProcessFactory;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\ExecutableFinder;
-use Skeletor\Installer;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
-use Prophecy\Argument;
 use Guzzle\Http\Client;
-use Skeletor\HostingInterface;
 use Guzzle\Http\Message\Request;
 use Guzzle\Http\Message\Response;
+use Prophecy\Argument;
+use Skeletor\Configuration;
+use Skeletor\HostingInterface;
+use Skeletor\Installer;
+use Skeletor\ProcessFactory;
 use Skeletor\Skeletor;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Process\Process;
 
 class InstallerTest extends \PHPUnit_Framework_TestCase
 {

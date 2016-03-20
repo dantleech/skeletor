@@ -1,16 +1,20 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
-use Skeletor\Configuration;
-use Skeletor\Skeletor;
-use Symfony\Component\Process\ExecutableFinder;
 use Guzzle\Http\Client;
-use Skeletor\HostingInterface;
 use Skeletor\Hosting\GithubHosting;
-use Skeletor\PathInformation;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ExecutableFinder;
 
 class Installer
 {
@@ -28,8 +32,7 @@ class Installer
         ExecutableFinder $executableFinder = null,
         ProcessFactory $processFactory = null,
         Client $httpClient = null
-    )
-    {
+    ) {
         $this->config = $config;
         $this->hosting = $hosting ?: new GithubHosting();
         $this->filesystem = $filesystem ?: new Filesystem();
@@ -56,6 +59,7 @@ class Installer
         if ($this->filesystem->exists($repoDir)) {
             $output->writeln('Updating existing repo');
             $this->updateExisting($output, $repoDir);
+
             return;
         }
 
@@ -110,7 +114,7 @@ class Installer
             Skeletor::CONFIG_NAME
         );
 
-        $response = $this->httpClient->head($url, null, [ 'exceptions' => false ])->send();
+        $response = $this->httpClient->head($url, null, ['exceptions' => false])->send();
 
         if (200 !== $response->getStatusCode()) {
             throw new \InvalidArgumentException(sprintf(

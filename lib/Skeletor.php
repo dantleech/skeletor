@@ -1,16 +1,18 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor;
 
-use Skeletor\Configuration;
-use Skeletor\Installer;
 use Skeletor\Console\Application;
-use Skeletor\Console\Command\GenerateCommand;
 use Symfony\Component\Debug\Debug;
-use Skeletor\Console\Command\InstallCommand;
-use Skeletor\Generator;
-use Skeletor\ConfigLoader;
-
 class Skeletor
 {
     const VERSION = '0.1';
@@ -56,8 +58,7 @@ class Skeletor
        :=o=====+:~               .~:=======~      
        .~+++~~                     .~:::~        
 
-EOT
-        ;
+EOT;
     }
 
     public static function parseRepo($repo)
@@ -71,6 +72,6 @@ EOT
             ));
         }
 
-        return [ $matches[1], $matches[2] ];
+        return [$matches[1], $matches[2]];
     }
 }

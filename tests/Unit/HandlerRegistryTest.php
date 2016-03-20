@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor\Tests\Unit;
 
 use Skeletor\HandlerInterface;
@@ -16,7 +25,7 @@ class HandlerRegistryTest extends \PHPUnit_Framework_TestCase
 
         $this->registry = new HandlerRegistry([
             'foo' => $this->handler1->reveal(),
-            'bar' => $this->handler2->reveal()
+            'bar' => $this->handler2->reveal(),
         ]);
     }
 
@@ -32,7 +41,7 @@ class HandlerRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should return a handler
+     * It should return a handler.
      */
     public function testGetHandler()
     {

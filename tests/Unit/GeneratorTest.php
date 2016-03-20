@@ -1,16 +1,25 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor\Tests\Unit;
 
+use Prophecy\Argument;
+use Skeletor\ConfigLoader;
 use Skeletor\Filesystem;
 use Skeletor\Generator;
+use Skeletor\HandlerInterface;
 use Skeletor\HandlerRegistry;
-use Skeletor\ConfigLoader;
+use Skeletor\NodeContext;
 use Skeletor\PathInformation;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Skeletor\HandlerInterface;
-use Skeletor\NodeContext;
-use Prophecy\Argument;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,7 +75,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         ]);
         $this->filesystem->exists('foo/noexist')->willReturn(false);
 
-
         $this->generator->generate(
             $this->output,
             'org', 'repo',
@@ -84,14 +92,14 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->configLoader->load('foo')->willReturn([
             'basedir' => 'skeletor',
             'files' => [
-                'file1' => [ 'type' => 'foo' ],
-                'file2' => [ 'type' => 'bar' ],
-                'file3' => [ 'type' => 'foo' ],
+                'file1' => ['type' => 'foo'],
+                'file2' => ['type' => 'bar'],
+                'file3' => ['type' => 'foo'],
             ],
             'params' => [
                 'one' => 1,
                 'two' => 2,
-            ]
+            ],
         ]);
         $this->filesystem->exists('foo/skeletor')->willReturn(true);
 

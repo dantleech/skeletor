@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor\Tests\Unit;
 
-use Skeletor\Filesystem;
 use Skeletor\ConfigLoader;
+use Skeletor\Filesystem;
 
 class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +27,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * It should throw an exception if the config file does not exist in the repo dir.
-     * 
+     *
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Skeletor config
      */
@@ -41,7 +50,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should validate against the schema
+     * It should validate against the schema.
      *
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The property descfoo
@@ -53,8 +62,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
     "title": "Something",
     "descfoo": "bar"
 }
-EOT
-        ;
+EOT;
 
         $this->filesystem->exists('hello/skeletor.json')->willReturn(true);
         $this->filesystem->get('hello/skeletor.json')->willReturn($config);
@@ -84,8 +92,8 @@ EOT
                     'description' => 'foobar',
                     'params' => [],
                     'basedir' => 'skeletor',
-                    'files' => []
-                ]
+                    'files' => [],
+                ],
             ],
             [
                 '{ "title": "Hello", "description": "foobar", "files": { "hello.md": {}}}',
@@ -97,10 +105,10 @@ EOT
                     'files' => [
                         'hello.md' => [
                             'type' => 'file',
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

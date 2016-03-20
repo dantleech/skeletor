@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor;
 
 use Pimple\Container as BaseContainer;
 
 class Container extends BaseContainer
 {
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         parent::__construct($values);
         $this->configure();
@@ -61,7 +70,6 @@ class Container extends BaseContainer
                 'template' => $container['handler.template'],
             ]);
         };
-
     }
 
     private function configureConsole()

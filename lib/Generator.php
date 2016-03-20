@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Skeletor\Filesystem;
 
 class Generator
 {
@@ -13,12 +21,11 @@ class Generator
     private $handlerRegistry;
 
     public function __construct(
-        PathInformation $pathInfo, 
-        ConfigLoader $configLoader, 
+        PathInformation $pathInfo,
+        ConfigLoader $configLoader,
         HandlerRegistry $handlerRegistry,
         Filesystem $filesystem = null
-    )
-    {
+    ) {
         $this->pathInfo = $pathInfo;
         $this->configLoader = $configLoader;
         $this->filesystem = $filesystem ?: new Filesystem();
@@ -32,7 +39,7 @@ class Generator
         if (false === $this->filesystem->exists($repoDir)) {
             $output->writeln(Skeletor::skeletor());
             throw new \InvalidArgumentException(sprintf(
-                "Skeleton \"%s\" has not been installed. Skeletor is not happy. Rawwwww",
+                'Skeleton "%s" has not been installed. Skeletor is not happy. Rawwwww',
                 $repoDir
             ));
         }

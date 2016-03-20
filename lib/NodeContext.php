@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor;
 
 class NodeContext
@@ -15,8 +24,7 @@ class NodeContext
         $path,
         array $nodeConfig,
         array $params
-    )
-    {
+    ) {
         $this->srcRootPath = $srcRootPath;
         $this->dstRootPath = $dstRootPath;
         $this->path = $path;
@@ -24,22 +32,22 @@ class NodeContext
         $this->params = $params;
     }
 
-    public function getSrcRootPath() 
+    public function getSrcRootPath()
     {
         return $this->srcRootPath;
     }
 
-    public function getDstRootPath() 
+    public function getDstRootPath()
     {
         return $this->dstRootPath;
     }
 
-    public function getNodeConfig() 
+    public function getNodeConfig()
     {
         return $this->nodeConfig;
     }
 
-    public function getParams() 
+    public function getParams()
     {
         return $this->params;
     }

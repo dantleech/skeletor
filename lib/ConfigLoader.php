@@ -1,12 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor;
 
-use Seld\JsonLint\JsonParser;
-use Skeletor\Skeletor;
-use JsonSchema\Validator;
 use JsonSchema\Uri\UriRetriever;
-use Skeletor\Filesystem;
+use JsonSchema\Validator;
+use Seld\JsonLint\JsonParser;
 
 class ConfigLoader
 {
@@ -47,11 +54,11 @@ class ConfigLoader
         $config = json_decode(json_encode($config), true);
 
         $config = $this->buildConfig($config, [
-            'title' => null, 
-            'description' => null, 
+            'title' => null,
+            'description' => null,
             'params' => [],
             'basedir' => 'skeletor',
-            'files' => []
+            'files' => [],
         ]);
 
         // use "template" as the default type - assuming that this
