@@ -16,12 +16,13 @@ use Guzzle\Http\Message\Request;
 use Guzzle\Http\Message\Response;
 use Prophecy\Argument;
 use Skeletor\Configuration;
+use Skeletor\Filesystem;
 use Skeletor\HostingInterface;
 use Skeletor\Installer;
+use Skeletor\PathInformation;
 use Skeletor\ProcessFactory;
 use Skeletor\Skeletor;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -40,12 +41,12 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->executableFinder = $this->prophesize(ExecutableFinder::class);
         $this->filesystem = $this->prophesize(Filesystem::class);
         $this->processFactory = $this->prophesize(ProcessFactory::class);
-        $this->config = $this->prophesize(Configuration::class);
+        $this->pathInfo = $this->prophesize(PathInformation::class);
         $this->hosting = $this->prophesize(HostingInterface::class);
         $this->httpClient = $this->prophesize(Client::class);
 
         $this->installer = new Installer(
-            $this->config->reveal(),
+            $this->pathInfo->reveal(),
             $this->hosting->reveal(),
             $this->filesystem->reveal(),
             $this->executableFinder->reveal(),
@@ -62,11 +63,11 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     private function commonExpectations()
     {
         $this->executableFinder->find('git')->willReturn('git');
-        $this->config->getRepoDir('org', 'repo')->willReturn('test/path');
+        $this->pathInfo->getRepoDir('org', 'repo')->willReturn('test/path');
 
         $this->hosting->getRawUrl('org', 'repo')->willReturn('url/to');
         $this->hosting->getRepositoryUrl('org', 'repo')->willReturn('url/to/repo');
-        $this->httpClient->head('url/to/' . Skeletor::CONFIG_NAME . '.json')->willReturn(
+        $this->httpClient->head('url/to/' . Skeletor::CONFIG_NAME . '.json', null, ['exceptions' => false])->willReturn(
             $this->request->reveal()
         );
         $this->request->send()->willReturn(
@@ -141,7 +142,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $this->executableFinder->find('git')->willReturn('git');
-        $this->config->getRepoDir('org', 'repo')->willReturn('test/path');
+        $this->pathInfo->getRepoDir('org', 'repo')->willReturn('test/path');
         $this->filesystem->exists('test/path')->willReturn(true);
         $this->processFactory->create('git pull origin master', 'test/path')->willReturn(
             $this->process->reveal()

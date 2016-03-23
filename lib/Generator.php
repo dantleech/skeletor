@@ -58,6 +58,9 @@ class Generator
         $output->writeln(sprintf('<info>Generating </>%s<info> skeletor in </>%s<info>:</>', $repo, $dstRootPath));
         $output->write(PHP_EOL);
 
+        $params = $config['params'];
+        $params['date.year'] = date('Y');
+
         foreach ($config['files'] as $nodePath => $nodeConfig) {
 
             // the key is assumed to be the destination filename unless
@@ -73,7 +76,7 @@ class Generator
                 $dstRootPath,
                 $nodePath,
                 $nodeConfig,
-                $config['params']
+                $params
             );
 
             $output->writeln(sprintf(" [+] <comment>%'.-12s</> ./%s", $nodeConfig['type'], $context->getAbsDstPath()));

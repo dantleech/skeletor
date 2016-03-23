@@ -104,7 +104,7 @@ EOT;
                     'basedir' => 'skeletor',
                     'files' => [
                         'hello.md' => [
-                            'type' => 'file',
+                            'type' => 'template',
                         ],
                     ],
                 ],

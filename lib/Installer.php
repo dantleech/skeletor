@@ -18,7 +18,7 @@ use Symfony\Component\Process\ExecutableFinder;
 
 class Installer
 {
-    private $config;
+    private $pathInfo;
     private $filesystem;
     private $processFactory;
     private $executableFinder;
@@ -26,14 +26,14 @@ class Installer
     private $hosting;
 
     public function __construct(
-        PathInformation $config,
+        PathInformation $pathInfo,
         HostingInterface $hosting = null,
         Filesystem $filesystem = null,
         ExecutableFinder $executableFinder = null,
         ProcessFactory $processFactory = null,
         Client $httpClient = null
     ) {
-        $this->config = $config;
+        $this->pathInfo = $pathInfo;
         $this->hosting = $hosting ?: new GithubHosting();
         $this->filesystem = $filesystem ?: new Filesystem();
         $this->executableFinder = $executableFinder ?: new ExecutableFinder();
@@ -54,7 +54,7 @@ class Installer
             ));
         }
 
-        $repoDir = $this->config->getRepoDir($org, $repo);
+        $repoDir = $this->pathInfo->getRepoDir($org, $repo);
 
         if ($this->filesystem->exists($repoDir)) {
             $output->writeln('Updating existing repo');

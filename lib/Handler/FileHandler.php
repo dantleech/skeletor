@@ -12,8 +12,8 @@
 namespace Skeletor\Handler;
 
 use Skeletor\Filesystem;
-use Skeletor\NodeContext;
 use Skeletor\HandlerInterface;
+use Skeletor\NodeContext;
 
 class FileHandler implements HandlerInterface
 {

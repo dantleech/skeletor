@@ -49,6 +49,9 @@ class ConfigLoader
             throw $error;
         }
 
+        // validate the configuration against the JSON schema.  the validator
+        // only accepts an object, however we want an array, for this reason we
+        // reencode and then decode to an array after validation.
         $config = json_decode($configRaw);
         $this->validate($config);
         $config = json_decode(json_encode($config), true);
@@ -68,9 +71,6 @@ class ConfigLoader
                 'type' => 'template',
             ]);
         }
-
-        // add some default parameters
-        $config['params']['date.year'] = date('Y');
 
         return $config;
     }
