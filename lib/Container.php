@@ -39,9 +39,13 @@ class Container extends BaseContainer
 
         $this['generator'] = function ($container) {
             return new Generator(
-                $container['path_info'],
-                $container['config_loader'],
                 $container['handler_registry']
+            );
+        };
+
+        $this['closet'] = function ($container) {
+            return new Closet(
+                $container['path_info']
             );
         };
 
@@ -76,7 +80,9 @@ class Container extends BaseContainer
     {
         $this['command.generate'] = function ($container) {
             return new Console\Command\GenerateCommand(
-                $container['generator']
+                $container['generator'],
+                $container['config_loader'],
+                $container['closet']
             );
         };
 

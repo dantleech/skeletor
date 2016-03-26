@@ -63,7 +63,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     private function commonExpectations()
     {
         $this->executableFinder->find('git')->willReturn('git');
-        $this->pathInfo->getRepoDir('org', 'repo')->willReturn('test/path');
+        $this->pathInfo->getSkeletonDir('org', 'repo')->willReturn('test/path');
 
         $this->hosting->getRawUrl('org', 'repo')->willReturn('url/to');
         $this->hosting->getRepositoryUrl('org', 'repo')->willReturn('url/to/repo');
@@ -142,7 +142,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $this->executableFinder->find('git')->willReturn('git');
-        $this->pathInfo->getRepoDir('org', 'repo')->willReturn('test/path');
+        $this->pathInfo->getSkeletonDir('org', 'repo')->willReturn('test/path');
         $this->filesystem->exists('test/path')->willReturn(true);
         $this->processFactory->create('git pull origin master', 'test/path')->willReturn(
             $this->process->reveal()

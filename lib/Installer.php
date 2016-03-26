@@ -54,7 +54,7 @@ class Installer
             ));
         }
 
-        $repoDir = $this->pathInfo->getRepoDir($org, $repo);
+        $repoDir = $this->pathInfo->getSkeletonDir($org, $repo);
 
         if ($this->filesystem->exists($repoDir)) {
             $output->writeln('Updating existing repo');

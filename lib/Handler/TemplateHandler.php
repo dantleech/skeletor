@@ -40,7 +40,8 @@ class TemplateHandler extends FileHandler
         }
 
         foreach ($params as $tokenName => $tokenValue) {
-            $contents = preg_replace('/\{\{\s*' . $tokenName . '\s*\}\}/', $tokenValue, $contents);
+            preg_match('/\{\{\s*' . $tokenName . '\s*\}\}/', $contents, $matches);
+            $contents = str_replace($matches[0], $tokenValue, $contents);
         }
 
         $this->filesystem->dumpFile($context->getAbsDstPath(), $contents);

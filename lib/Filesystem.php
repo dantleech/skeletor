@@ -19,4 +19,9 @@ class Filesystem extends BaseFilesystem
     {
         return file_get_contents($path);
     }
+
+    public function ls($path)
+    {
+        return new \DirectoryIterator($path);
+    }
 }

@@ -62,6 +62,7 @@ class ConfigLoader
             'params' => [],
             'basedir' => 'skeletor',
             'files' => [],
+            'repo_dir' => $repoDir,
         ]);
 
         // use "template" as the default type - assuming that this

@@ -93,6 +93,7 @@ EOT;
                     'params' => [],
                     'basedir' => 'skeletor',
                     'files' => [],
+                    'repo_dir' => 'hello',
                 ],
             ],
             [
@@ -107,6 +108,7 @@ EOT;
                             'type' => 'template',
                         ],
                     ],
+                    'repo_dir' => 'hello',
                 ],
             ],
         ];

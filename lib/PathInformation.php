@@ -27,7 +27,7 @@ class PathInformation
         return $this->xdg->getHomeDataDir() . DIRECTORY_SEPARATOR . 'skeletor';
     }
 
-    public function getRepoDir($org, $repo)
+    public function getSkeletonDir($org, $repo)
     {
         return $this->getDataDir() . DIRECTORY_SEPARATOR . $org . DIRECTORY_SEPARATOR . $repo;
     }

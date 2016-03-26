@@ -13,6 +13,7 @@ namespace Skeletor;
 
 use Skeletor\Console\Application;
 use Symfony\Component\Debug\Debug;
+
 class Skeletor
 {
     const VERSION = '0.1';
@@ -28,7 +29,8 @@ class Skeletor
     public static function skeletor()
     {
         return <<<'EOT'
-                            . .                   
+<skeletor>
+                            . .                  
                     ..~:+++:~~..                  
                .  .:+=ooo===o==+:~.               
                 ~+=o===+===========~~ .           
@@ -58,6 +60,7 @@ class Skeletor
        :=o=====+:~               .~:=======~      
        .~+++~~                     .~:::~        
 
+</>
 EOT;
     }
 

@@ -12,28 +12,22 @@
 namespace Skeletor\Tests\Unit;
 
 use Prophecy\Argument;
-use Skeletor\ConfigLoader;
 use Skeletor\Filesystem;
 use Skeletor\Generator;
 use Skeletor\HandlerInterface;
 use Skeletor\HandlerRegistry;
 use Skeletor\NodeContext;
-use Skeletor\PathInformation;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->pathInfo = $this->prophesize(PathInformation::class);
-        $this->configLoader = $this->prophesize(ConfigLoader::class);
         $this->handlerRegistry = $this->prophesize(HandlerRegistry::class);
         $this->filesystem = $this->prophesize(Filesystem::class);
         $this->output = new BufferedOutput();
 
         $this->generator = new Generator(
-            $this->pathInfo->reveal(),
-            $this->configLoader->reveal(),
             $this->handlerRegistry->reveal(),
             $this->filesystem->reveal()
         );
@@ -44,40 +38,21 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should throw an exception if the skeletor has not been installed.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Skeleton "foo" has not been installed.
-     */
-    public function testSkeletorInstalled()
-    {
-        $this->filesystem->exists('foo')->willReturn(false);
-        $this->pathInfo->getRepoDir('org', 'repo')->willReturn('foo');
-        $this->generator->generate(
-            $this->output,
-            'org', 'repo',
-            '/path/to/repo'
-        );
-    }
-
-    /**
      * It should throw an exception if the basedir of the skeletor does not exist.
      *
      * @expectedException Skeletor\Exception\InvalidSkeletorException
-     * @expectedExceptionMessage Basedir "foo/noexist" does not exist for skeletor
+     * @expectedExceptionMessage Basedir "/path/to/noexist" does not exist for skeletor
      */
     public function testSkeletorBasedirNotExist()
     {
-        $this->filesystem->exists('foo')->willReturn(true);
-        $this->pathInfo->getRepoDir('org', 'repo')->willReturn('foo');
-        $this->configLoader->load('foo')->willReturn([
-            'basedir' => 'noexist',
-        ]);
-        $this->filesystem->exists('foo/noexist')->willReturn(false);
+        $this->filesystem->exists('/path/to/noexist')->willReturn(false);
 
         $this->generator->generate(
             $this->output,
-            'org', 'repo',
+            [
+                'repo_dir' => '/path/to',
+                'basedir' => 'noexist',
+            ],
             '/path/to/repo'
         );
     }
@@ -87,20 +62,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateSkeleton()
     {
-        $this->filesystem->exists('foo')->willReturn(true);
-        $this->pathInfo->getRepoDir('org', 'repo')->willReturn('foo');
-        $this->configLoader->load('foo')->willReturn([
-            'basedir' => 'skeletor',
-            'files' => [
-                'file1' => ['type' => 'foo'],
-                'file2' => ['type' => 'bar'],
-                'file3' => ['type' => 'foo'],
-            ],
-            'params' => [
-                'one' => 1,
-                'two' => 2,
-            ],
-        ]);
         $this->filesystem->exists('foo/skeletor')->willReturn(true);
 
         $this->handlerRegistry->get('foo')->willReturn(
@@ -117,7 +78,19 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->generator->generate(
             $this->output,
-            'org', 'repo',
+            [
+                'repo_dir' => 'foo',
+                'basedir' => 'skeletor',
+                'files' => [
+                    'file1' => ['type' => 'foo'],
+                    'file2' => ['type' => 'bar'],
+                    'file3' => ['type' => 'foo'],
+                ],
+                'params' => [
+                    'one' => 1,
+                    'two' => 2,
+                ],
+            ],
             '/path/to/repo'
         );
     }
