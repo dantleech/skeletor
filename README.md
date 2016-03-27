@@ -11,7 +11,7 @@ skeleton repositories.
 - Skeletons are hosted on Github.
 - Skeletons are installed locally (i.e. they work offline).
 - Interactive generation.
-- Stupid skeletor quotes and theme.
+- Almost 1000 skeletor quotes.
 
 ## Installation and Usage
 
