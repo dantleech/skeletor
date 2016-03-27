@@ -29,7 +29,7 @@ class Skeletor
     public static function title()
     {
         return <<<'EOT'
-<bone>
+<red>
     _____ __ __ ________    ________________  ____ 
    / ___// //_// ____/ /   / ____/_  __/ __ \/ __ \
    \__ \/ ,<  / __/ / /   / __/   / / / / / / /_/ /
@@ -41,8 +41,7 @@ EOT;
 
     public static function skeletor()
     {
-        return <<<'EOT'
-<skeletor>
+        $skeletor =  <<<'EOT'
                             . .                  
                     ..~:+++:~~..                  
                .  .:+=ooo===o==+:~.               
@@ -73,8 +72,10 @@ EOT;
        :=o=====+:~               .~:=======~      
        .~+++~~                     .~:::~        
 
-</>
 EOT;
+        $skeletor = preg_replace('{([\~\:o=\+]+)}', '<bone>\1</>', $skeletor);
+        $skeletor = preg_replace('{(\.+)}', '<skeletor>\1</>', $skeletor);
+        return $skeletor;
     }
 
     public static function parseRepo($repo)
@@ -137,7 +138,7 @@ EOT;
         return implode(
             PHP_EOL,
             [
-                sprintf('"<bone>%s</>"', trim($quotes[rand(0, count($quotes))])),
+                sprintf('"<say>%s</>"', trim($quotes[rand(0, count($quotes))])),
                 str_pad('- Skeletor', 47, ' ', STR_PAD_LEFT),
             ]
         );

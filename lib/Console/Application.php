@@ -32,5 +32,7 @@ class Application extends BaseApplication
         $output->getFormatter()->setStyle('comment', new OutputFormatterStyle('magenta', null, []));
         $output->getFormatter()->setStyle('skeletor', new OutputFormatterStyle('magenta', null, ['bold']));
         $output->getFormatter()->setStyle('bone', new OutputFormatterStyle('yellow', null, ['bold']));
+        $output->getFormatter()->setStyle('red', new OutputFormatterStyle('red', null, ['bold']));
+        $output->getFormatter()->setStyle('say', new OutputFormatterStyle('white', null, ['bold']));
     }
 }
