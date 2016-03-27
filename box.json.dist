@@ -1,0 +1,28 @@
+{
+  "algorithm": "OPENSSL",
+  "chmod": "0755",
+  "compression": "GZ",
+  "directories": [
+    "lib"
+  ],
+  "files": [
+    "LICENSE",
+    "lib/schema.json"
+  ],
+  "finder": [
+    {
+      "name": "{\\.[php|pem]}",
+      "exclude": [
+        "tests",
+        "test"
+      ],
+      "in": "vendor"
+    }
+  ],
+  "git-version": "package_version",
+  "intercept": true,
+  "key": ".travis/skeletor-phar-private.pem",
+  "main": "bin/skeletor.php",
+  "output": "skeletor.phar",
+  "stub": true
+}

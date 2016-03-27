@@ -88,7 +88,7 @@ class ConfigLoader
 
     private function validate(\stdClass $config)
     {
-        $schema = $this->uriRetriever->retrieve('file://' . __DIR__ . '/schema.json');
+        $schema = json_decode(file_get_contents(__DIR__ . '/schema.json'));
         $this->validator->check($config, $schema);
         $errors = $this->validator->getErrors();
 
