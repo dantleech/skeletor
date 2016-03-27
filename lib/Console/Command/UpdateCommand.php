@@ -33,7 +33,7 @@ class UpdateCommand extends Command
         $updater->getStrategy()->setVersionUrl('https://dantleech.github.io/skeletor/skeletor.phar.version');
 
         if ($input->getOption('rollback')) {
-            return $this->doRollback($output);
+            return $this->doRollback($output, $updater);
         } else {
             $result = $updater->update();
         }
@@ -47,7 +47,7 @@ class UpdateCommand extends Command
         $new = $updater->getNewVersion();
         $old = $updater->getOldVersion();
 
-        $output->writeln('Skeletor was updated from "%s" to "%s" \o/', $old, $new);
+        $output->writeln(sprintf('Skeletor was updated from "%s" to "%s" \o/', $old, $new));
     }
 
     private function doRollback($output, $updater)
@@ -56,11 +56,11 @@ class UpdateCommand extends Command
 
         if (!$result) {
             throw new \RuntimeException(
-                'Could not rollback!'
+                'Could not rollback!!'
             );
         }
 
-        $output->writeln('Successfully rolled back');
+        $output->writeln('Successfully rolled back.');
 
         return 0;
     }
