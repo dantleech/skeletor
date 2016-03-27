@@ -91,11 +91,16 @@ class Container extends BaseContainer
                 $container['installer']
             );
         };
+        $this['command.update'] = function ($container) {
+            return new Console\Command\UpdateCommand(
+            );
+        };
 
         $this['application'] = function ($container) {
             $application = new Console\Application();
             $application->add($container['command.install']);
             $application->add($container['command.generate']);
+            $application->add($container['command.update']);
 
             return $application;
         };
