@@ -1,7 +1,29 @@
 <html>
     <body>
-    <h1>Skeletor</h1>
-    <img src="https://cloud.githubusercontent.com/assets/530801/13731008/6fc24402-e957-11e5-9a6b-a7077a988e60.png" />
+        <h1>Skeletor</h1>
+        <img src="https://cloud.githubusercontent.com/assets/530801/13731008/6fc24402-e957-11e5-9a6b-a7077a988e60.png" />
+        <h2>Skeletor is a universal project skeleton generator</h2>
+        <h3>Installation</h3>
+        <p>Install the phar and the public key (required for self updates)</p>
+        <code>
+            $ curl -o skeletor.phar https://dantleech.github.io/skeletor/skeletor.phar
+            $ curl -o skeletor.phar.pubkey https://dantleech.github.io/skeletor/skeletor.phar.pubkey
+        </code>
+        <p>Now make the PHAR executable and maybe you want to move it somewhere in your path:</p>
+        <code>
+            $ chmod a+x skeletor
+            $ sudo mv skeletor /usr/local/bin/skeletor
+            $ sudo mv skeletor.pubkey /usr/local/bin/skeletor.pubkey
+        </code>
+        <h3>Generate a project</h3>
+        <p>First you need to install a project template:</p>
+        <code>
+            $ skeletor install dantleech/phplib.skel
+        </code>
+        <p>Then you can generate a project:</p>
+        <code>
+            $ skeletor generate
+        </code>
     </body>
 </html>
 
