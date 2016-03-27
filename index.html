@@ -75,7 +75,7 @@ $ sudo mv skeletor.pubkey /usr/local/bin/skeletor.pubkey</pre>
         <pre>$ skeletor generate</pre>
 
         <h3>Creating your own repositories</h3>
-        <p>The easiest way to start is probably just to fork as <a href="https://github.com/dantleech/phplib.ske;">existing repository</a></p>
+        <p>The easiest way to start is probably just to fork an <a href="https://github.com/dantleech/phplib.ske;">existing repository</a></p>
         <h4>The configuration</h4>
         <p>Your repository should have a <code>skeletor.json</code> file in its project root:
 <pre>{
@@ -109,7 +109,7 @@ $ sudo mv skeletor.pubkey /usr/local/bin/skeletor.pubkey</pre>
         <p><b>Note</b> that in the configuration:<p>
 		<ul>
 			<li>We defined <code>lib</code> and <code>tests</code> as directories - these will be explicitly created even if they are not in our repository.</li>
-			<li>We define a file map where the array key is the path of the file relative to <code>basepath</code> and the value is an object of options.</li>
+			<li>We define a file map where the array key is the path of the file relative to <code>basedir</code> and the value is an object of options.</li>
 			<li>In the absence of a defined <code>type</code> the type is assumed to be <code>template</code><li>
 			<li>We define parameters which can be substituted in files with the <code>template</code> type.</li>
 		</ul>
