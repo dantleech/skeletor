@@ -40,6 +40,8 @@ class Generator
         $output->writeln(sprintf('<info>Generating </>%s<info> skeletor in </>%s<info>:</>', basename($config['repo_dir']), $dstRootPath));
         $output->write(PHP_EOL);
 
+        $cwd = getcwd();
+
         foreach ($config['files'] as $nodePath => $nodeConfig) {
 
             // the key is assumed to be the destination filename unless
@@ -51,6 +53,7 @@ class Generator
             }
 
             $context = new NodeContext(
+                $cwd,
                 $srcRootPath,
                 $dstRootPath,
                 $nodePath,
@@ -58,7 +61,7 @@ class Generator
                 $params
             );
 
-            $output->writeln(sprintf(" [+] <comment>%'.-12s</> ./%s", $nodeConfig['type'], $context->getAbsDstPath()));
+            $output->writeln(sprintf(" [+] <comment>%'.-12s</> %s", $nodeConfig['type'], $context->getAbsDstPath()));
             $handler = $this->handlerRegistry->get($nodeConfig['type']);
             $handler->process($context);
         }

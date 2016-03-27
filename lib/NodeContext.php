@@ -13,18 +13,21 @@ namespace Skeletor;
 
 class NodeContext
 {
+    private $cwd;
     private $srcRootPath;
     private $dstRootPath;
     private $nodeConfig = [];
     private $params = [];
 
     public function __construct(
+        $cwd,
         $srcRootPath,
         $dstRootPath,
         $path,
         array $nodeConfig,
         array $params
     ) {
+        $this->cwd = $cwd;
         $this->srcRootPath = $srcRootPath;
         $this->dstRootPath = $dstRootPath;
         $this->path = $path;
@@ -59,11 +62,23 @@ class NodeContext
 
     public function getAbsSrcPath()
     {
-        return $this->srcRootPath . DIRECTORY_SEPARATOR . $this->path;
+        $path = $this->srcRootPath . DIRECTORY_SEPARATOR . $this->path;
+
+        if (substr($path, 0, 1) == DIRECTORY_SEPARATOR) {
+            return $path;
+        }
+
+        return $this->cwd . DIRECTORY_SEPARATOR . $path;
     }
 
     public function getAbsDstPath()
     {
-        return $this->dstRootPath . DIRECTORY_SEPARATOR . $this->path;
+        $path = $this->dstRootPath . DIRECTORY_SEPARATOR . $this->path;
+
+        if (substr($path, 0, 1) == DIRECTORY_SEPARATOR) {
+            return $path;
+        }
+
+        return $this->cwd . DIRECTORY_SEPARATOR . $path;
     }
 }
