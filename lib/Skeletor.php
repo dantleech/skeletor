@@ -16,7 +16,7 @@ use Symfony\Component\Debug\Debug;
 
 class Skeletor
 {
-    const VERSION = '0.1';
+    const VERSION = '@package_version@';
     const CONFIG_NAME = 'skeletor';
 
     public static function run()

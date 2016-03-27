@@ -28,7 +28,7 @@ class Application extends BaseApplication
     {
         parent::configureIO($input, $output);
         $output->getFormatter()->setStyle('question', new OutputFormatterStyle('white', null, ['bold']));
-        $output->getFormatter()->setStyle('info', new OutputFormatterStyle('yellow', null, ['bold']));
+        $output->getFormatter()->setStyle('info', new OutputFormatterStyle('yellow', null, []));
         $output->getFormatter()->setStyle('comment', new OutputFormatterStyle('magenta', null, []));
         $output->getFormatter()->setStyle('skeletor', new OutputFormatterStyle('magenta', null, ['bold']));
     }
