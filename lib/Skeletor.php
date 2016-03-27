@@ -35,6 +35,7 @@ class Skeletor
    \__ \/ ,<  / __/ / /   / __/   / / / / / / /_/ /
   ___/ / /| |/ /___/ /___/ /___  / / / /_/ / _, _/ 
  /____/_/ |_/_____/_____/_____/ /_/  \____/_/ |_|  
+</>
 EOT;
     }
 
@@ -90,7 +91,7 @@ EOT;
         return [$matches[1], $matches[2]];
     }
 
-    public static function quote()
+    public static function say()
     {
         $quotes = <<<'EOT'
 Fool! You are no longer my equal! I am more than man! More than life! I... am... a... GOD! Now. You... will... KNELL! KNELL! 
@@ -119,21 +120,27 @@ Do you hear, Sorceress? The final moment has come. All the forces of Greyskull, 
 [laughs] Thank you for that bit of philosophy, Sorceress. Here is my response. 
 Yes, Sorceress! The Sword of Greyskull! Mine! Now and forever! 
 Your champion. 
-[to He-Man] Where is your strength? Where has it gone? Look at your precious Sorceress - now grown weak... withering... dying. Are you ready to kneel now, proud warrior? 
-Do you hear? The Alpha... and the Omega... death and rebirth... and as you die, so will I be reborn! 
-Witness this moment, He-Man! This moment where the powers of Greyskull will become mine for eternity! Our life-long battle in ending at last in the only way it could. When the Great Eye opens. The people of Eternia will see you kneel before me, just before you die! 
+[to He-Man] Where is your strength? Where has it gone? Look at your precious Sorceress - now grown weak... withering... dying. Are you ready to kneel now, proud warrior?
+Do you hear? The Alpha... and the Omega... death and rebirth... and as you die, so will I be reborn!
+Witness this moment, He-Man! This moment where the powers of Greyskull will become mine for eternity! Our life-long battle in ending at last in the only way it could. When the Great Eye opens. The people of Eternia will see you kneel before me, just before you die!
 Yes, you will! Yes, you will! Or I shall wreak unforgettable harm upon you! 
 Leave them alone. He-Man is my slave. As long as I let them live, he is bound by his word. Let them rot. 
-Let them rot. 
+Let them rot.
 Stay where you are, He-Man! One more move and your friends will not live to see another day! I give you a choice. Return with me to Eternia as my slave and save their miserable lives, or perish with them on this primitive and tasteless planet. Surrender your sword. 
-[speaking to the audience] I'll be back! 
+[speaking to the audience] I'll be back!
 People of Eternia, the war is over. My forces are victorious. The Sorceress of Greyskull is my prisoner, and her powers are now joined with mine! Let this be my first decree... those who do not pledge themselves to me shall be destroyed! The new age begins! 
-I lied! Farewell, He-Man! 
+I lied! Farewell, He-Man!
 EOT;
 
         $quotes = explode(PHP_EOL, $quotes);
 
-        return $quotes[rand(0, count($quotes))];
+        return implode(
+            PHP_EOL,
+            [
+                sprintf('"<bone>%s</>"', trim($quotes[rand(0, count($quotes))])),
+                str_pad('- Skeletor', 47, ' ', STR_PAD_LEFT)
+            ]
+        );
     }
 
     public static function skeletorHeader()
@@ -143,7 +150,7 @@ EOT;
             [
                 self::title(),
                 self::skeletor(),
-                wordwrap(self::quote(), 45, "\n  "),
+                wordwrap(self::say(), 45, "\n  "),
             ]
         ) . PHP_EOL;
     }
