@@ -13,6 +13,7 @@ class UpdateCommand extends Command
     {
         $this->setName('update');
         $this->setDescription('Update the application');
+        $this->addOption('rollback', null, InputOption::VALUE_NONE, 'Rollback version');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -21,7 +22,11 @@ class UpdateCommand extends Command
         $updater->getStrategy()->setPharUrl('https://dantleech.github.io/skeletor/skeletor.phar');
         $updater->getStrategy()->setVersionUrl('https://dantleech.github.io/skeletor/skeletor.phar.version');
 
-        $result = $updater->update();
+        if ($input->getOption('rollback')) {
+            return $this->doRollback($output);
+        } else {
+            $result = $updater->update();
+        }
 
         if (!$result) {
             $output->writeln('No update required. Skeletor is fine.');
@@ -32,5 +37,20 @@ class UpdateCommand extends Command
         $old = $updater->getOldVersion();
 
         $output->writeln('Skeletor was updated from "%s" to "%s" \o/', $old, $new);
+    }
+
+    private function doRollback($output, $updater)
+    {
+        $result = $updater->rollback();
+
+        if (!$result) {
+            throw new \RuntimeException(
+                'Could not rollback!'
+            );
+        }
+
+        $output->writeln('Successfully rolled back');
+
+        return 0;
     }
 }
