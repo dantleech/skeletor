@@ -138,7 +138,7 @@ EOT;
             PHP_EOL,
             [
                 sprintf('"<bone>%s</>"', trim($quotes[rand(0, count($quotes))])),
-                str_pad('- Skeletor', 47, ' ', STR_PAD_LEFT)
+                str_pad('- Skeletor', 47, ' ', STR_PAD_LEFT),
             ]
         );
     }
