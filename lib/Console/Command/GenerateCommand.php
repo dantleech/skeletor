@@ -53,8 +53,7 @@ class GenerateCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(Skeletor::skeletor());
-
+        $output->writeln(Skeletor::skeletorHeader());
         $repo = $input->getArgument('repo');
 
         if (!$repo) {

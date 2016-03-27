@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Glob package.
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Skeletor\Console\Command;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Humbug\SelfUpdate\Updater;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends Command
 {
@@ -31,6 +40,7 @@ class UpdateCommand extends Command
 
         if (!$result) {
             $output->writeln('No update required. Skeletor is fine.');
+
             return 0;
         }
 

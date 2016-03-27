@@ -16,6 +16,7 @@ use Skeletor\Skeletor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class InstallCommand extends Command
@@ -26,6 +27,7 @@ class InstallCommand extends Command
     {
         parent::__construct();
         $this->installer = $installer;
+        $this->addOption('skeletor', 's', InputOption::VALUE_NONE, 'Skeletor');
     }
 
     public function configure()
@@ -45,7 +47,8 @@ EOT
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(Skeletor::skeletor());
+        $output->writeln(Skeletor::skeletorHeader());
+
         $repo = $input->getArgument('repo');
         $output->writeln('<comment>' . $repo . '</>');
 

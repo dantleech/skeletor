@@ -31,5 +31,6 @@ class Application extends BaseApplication
         $output->getFormatter()->setStyle('info', new OutputFormatterStyle('yellow', null, []));
         $output->getFormatter()->setStyle('comment', new OutputFormatterStyle('magenta', null, []));
         $output->getFormatter()->setStyle('skeletor', new OutputFormatterStyle('magenta', null, ['bold']));
+        $output->getFormatter()->setStyle('bone', new OutputFormatterStyle('yellow', null, ['bold']));
     }
 }
