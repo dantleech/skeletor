@@ -12,7 +12,11 @@
 namespace Skeletor;
 
 use Guzzle\Http\Client;
-use Skeletor\Hosting\GithubHosting;
+use Skeletor\Installer\Hosting\GithubHosting;
+use Skeletor\Installer\HostingInterface;
+use Skeletor\Util\Filesystem;
+use Skeletor\Util\PathInformation;
+use Skeletor\Util\ProcessFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ExecutableFinder;
 
@@ -108,6 +112,20 @@ class Installer
 
     private function assertSkeletor($org, $repo)
     {
+        $repositoryUrl = $this->hosting->getPublicUrl($org, $repo);
+
+        $response = $this->httpClient->head(
+            $repositoryUrl,
+            null,
+            ['exceptions' => false]
+        )->send();
+
+        if (200 !== $response->getStatusCode()) {
+            throw new \InvalidArgumentException(sprintf(
+                'Could not find repository at "%s"', $repositoryUrl
+            ));
+        }
+
         $url = sprintf(
             '%s/%s.json',
             $this->hosting->getRawUrl($org, $repo),

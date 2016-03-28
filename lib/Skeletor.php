@@ -39,9 +39,9 @@ class Skeletor
 EOT;
     }
 
-    public static function skeletor()
+    public static function plainSkeletor()
     {
-        $skeletor =  <<<'EOT'
+        $skeletor = <<<'EOT'
                             . .                  
                     ..~:+++:~~..                  
                .  .:+=ooo===o==+:~.               
@@ -73,9 +73,53 @@ EOT;
        .~+++~~                     .~:::~        
 
 EOT;
+
+        return $skeletor;
+    }
+
+    public static function skeletor()
+    {
+        $skeletor = self::plainSkeletor();
         $skeletor = preg_replace('{([\~\:o=\+]+)}', '<bone>\1</>', $skeletor);
         $skeletor = preg_replace('{(\.+)}', '<skeletor>\1</>', $skeletor);
+
         return $skeletor;
+    }
+
+    public static function rainbowSkeletor($frame = 0)
+    {
+        $skeletor = explode(PHP_EOL, self::plainSkeletor());
+        $delta = 1;
+        $lines = [];
+
+        foreach ($skeletor as $index => $line) {
+            // start at 32 to avoid the ugly colors
+            $color = 32 + ((floor($frame * $delta) + $index) % 223);
+            $lines[] = "\x1B[38;5;" . $color . 'm' . $line;
+        }
+
+        return implode(PHP_EOL, $lines);
+    }
+
+    public static function animatedSkeletor($output)
+    {
+        $count = 0;
+        $first = true;
+
+        // hide the cursor
+        echo "\x1B[?25l";
+        while (true) {
+            usleep(50000);
+            $output->write($title = self::title());
+            $output->write($skeletor = self::rainbowSkeletor($count));
+            if ($first) {
+                $output->write($say = self::say());
+            }
+            $output->write(str_repeat("\n", 10));
+            $output->write("\x1B[" . (substr_count($skeletor . $title . $say, "\n") + 10) . 'A');
+            $count++;
+            $first = false;
+        }
     }
 
     public static function parseRepo($repo)
@@ -110,7 +154,7 @@ EOT;
             PHP_EOL,
             [
                 sprintf('"<say>%s</>"', $matches[2]),
-                sprintf(' %46s', ' - ' . $matches[1])
+                sprintf(' %46s', ' - ' . $matches[1]),
             ]
         );
     }

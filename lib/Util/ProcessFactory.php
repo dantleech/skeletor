@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor;
+namespace Skeletor\Util;
 
 use Symfony\Component\Process\Process;
 

@@ -9,16 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor\Hosting;
+namespace Skeletor\Installer\Hosting;
 
-use Skeletor\HostingInterface;
+use Skeletor\Installer\HostingInterface;
 
 class GithubHosting implements HostingInterface
 {
     public function getRepositoryUrl($org, $repo)
     {
         return sprintf(
-            'git@github.com:%s/%s',
+            'https://github.com/%s/%s',
+            $org, $repo
+        );
+    }
+
+    public function getPublicUrl($org, $repo)
+    {
+        return sprintf(
+            'https://github.com/%s/%s',
             $org, $repo
         );
     }

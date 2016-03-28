@@ -12,8 +12,8 @@
 namespace Skeletor\Tests\Unit;
 
 use Skeletor\Closet;
-use Skeletor\Filesystem;
-use Skeletor\PathInformation;
+use Skeletor\Util\Filesystem;
+use Skeletor\Util\PathInformation;
 
 class ClosetTest extends \PHPUnit_Framework_TestCase
 {

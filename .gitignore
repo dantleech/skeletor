@@ -6,3 +6,4 @@ skeletor.phar.pubkey
 skeletor.phar.version
 .travis/skeletor_installer.pem
 .travis/secrets.tar
+tests/System/workspace

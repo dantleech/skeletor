@@ -11,6 +11,9 @@
 
 namespace Skeletor;
 
+use Skeletor\Generator\HandlerRegistry;
+use Skeletor\Generator\NodeContext;
+use Skeletor\Util\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Generator

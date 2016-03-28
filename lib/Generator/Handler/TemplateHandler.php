@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor\Handler;
+namespace Skeletor\Generator\Handler;
 
-use Skeletor\Filesystem;
-use Skeletor\NodeContext;
+use Skeletor\Generator\NodeContext;
+use Skeletor\Util\Filesystem;
 
 /**
  * Simple template processor, replaces {{ mustache-like }} tokens with

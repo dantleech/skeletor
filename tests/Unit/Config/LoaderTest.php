@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor\Tests\Unit;
+namespace Skeletor\Tests\Unit\Config;
 
-use Skeletor\ConfigLoader;
-use Skeletor\Filesystem;
+use Skeletor\Config\Loader;
+use Skeletor\Util\Filesystem;
 
-class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
+class LoaderTest extends \PHPUnit_Framework_TestCase
 {
     private $filesystem;
     private $loader;
@@ -22,7 +22,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->filesystem = $this->prophesize(Filesystem::class);
-        $this->loader = new ConfigLoader($this->filesystem->reveal());
+        $this->loader = new Loader($this->filesystem->reveal());
     }
 
     /**

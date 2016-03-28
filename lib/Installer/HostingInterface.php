@@ -9,9 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor;
+namespace Skeletor\Installer;
 
-interface HandlerInterface
+interface HostingInterface
 {
-    public function process(NodeContext $context);
+    public function getRepositoryUrl($org, $repo);
+
+    public function getRawUrl($org, $repo);
+
+    public function getPublicUrl($org, $repo);
 }

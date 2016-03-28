@@ -12,9 +12,10 @@
 namespace Skeletor\Console\Command;
 
 use Skeletor\Closet;
+use Skeletor\Config\Loader;
 use Skeletor\ConfigLoader;
 use Skeletor\Generator;
-use Skeletor\ParameterBuilder\InteractiveBuilder;
+use Skeletor\Generator\ParameterBuilder\InteractiveBuilder;
 use Skeletor\Skeletor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -32,7 +33,7 @@ class GenerateCommand extends Command
 
     public function __construct(
         Generator $generator,
-        ConfigLoader $configLoader,
+        Loader $configLoader,
         Closet $closet,
         QuestionHelper $questionHelper = null
     ) {
@@ -53,7 +54,6 @@ class GenerateCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(Skeletor::skeletorHeader());
         $repo = $input->getArgument('repo');
 
         if (!$repo) {

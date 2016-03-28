@@ -12,11 +12,11 @@
 namespace Skeletor\Tests\Unit;
 
 use Prophecy\Argument;
-use Skeletor\Filesystem;
 use Skeletor\Generator;
-use Skeletor\HandlerInterface;
-use Skeletor\HandlerRegistry;
-use Skeletor\NodeContext;
+use Skeletor\Generator\HandlerInterface;
+use Skeletor\Generator\HandlerRegistry;
+use Skeletor\Generator\NodeContext;
+use Skeletor\Util\Filesystem;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase

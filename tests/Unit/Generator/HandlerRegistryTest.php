@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor\Tests\Unit;
+namespace Skeletor\Tests\Unit\Generator;
 
-use Skeletor\HandlerInterface;
-use Skeletor\HandlerRegistry;
+use Skeletor\Generator\HandlerInterface;
+use Skeletor\Generator\HandlerRegistry;
 
 class HandlerRegistryTest extends \PHPUnit_Framework_TestCase
 {

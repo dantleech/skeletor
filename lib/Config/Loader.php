@@ -9,24 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor;
+namespace Skeletor\Config;
 
-use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 use Seld\JsonLint\JsonParser;
+use Skeletor\Skeletor;
+use Skeletor\Util\Filesystem;
 
-class ConfigLoader
+class Loader
 {
     private $jsonParser;
     private $validator;
-    private $uriRetriever;
 
     public function __construct(Filesystem $filesystem = null)
     {
         $this->filesystem = $filesystem ?: new Filesystem();
         $this->jsonParser = new JsonParser();
         $this->validator = new Validator();
-        $this->uriRetriever = new UriRetriever();
     }
 
     public function load($repoDir)

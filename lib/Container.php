@@ -12,6 +12,7 @@
 namespace Skeletor;
 
 use Pimple\Container as BaseContainer;
+use Skeletor\Wisdom\QuoteManager;
 
 class Container extends BaseContainer
 {
@@ -25,16 +26,17 @@ class Container extends BaseContainer
     {
         $this->configureCore();
         $this->configureConsole();
+        $this->configureWisdom();
     }
 
     private function configureCore()
     {
         $this['path_info'] = function ($container) {
-            return new PathInformation();
+            return new Util\PathInformation();
         };
 
         $this['config_loader'] = function ($container) {
-            return new ConfigLoader();
+            return new Config\Loader();
         };
 
         $this['generator'] = function ($container) {
@@ -56,19 +58,19 @@ class Container extends BaseContainer
         };
 
         $this['handler.file'] = function ($container) {
-            return new Handler\FileHandler();
+            return new Generator\Handler\FileHandler();
         };
 
         $this['handler.dir'] = function ($container) {
-            return new Handler\DirectoryHandler();
+            return new Generator\Handler\DirectoryHandler();
         };
 
         $this['handler.template'] = function ($container) {
-            return new Handler\TemplateHandler();
+            return new Generator\Handler\TemplateHandler();
         };
 
         $this['handler_registry'] = function ($container) {
-            return new HandlerRegistry([
+            return new Generator\HandlerRegistry([
                 'file' => $container['handler.file'],
                 'dir' => $container['handler.dir'],
                 'template' => $container['handler.template'],
@@ -95,14 +97,27 @@ class Container extends BaseContainer
             return new Console\Command\UpdateCommand(
             );
         };
+        $this['command.wisdom'] = function ($container) {
+            return new Console\Command\WisdomCommand(
+                $container['wisdom.quote_manager']
+            );
+        };
 
         $this['application'] = function ($container) {
             $application = new Console\Application();
             $application->add($container['command.install']);
             $application->add($container['command.generate']);
             $application->add($container['command.update']);
+            $application->add($container['command.wisdom']);
 
             return $application;
+        };
+    }
+
+    private function configureWisdom()
+    {
+        $this['wisdom.quote_manager'] = function ($container) {
+            return new QuoteManager();
         };
     }
 }

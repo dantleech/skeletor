@@ -11,6 +11,12 @@
 
 namespace Skeletor;
 
+use Skeletor\Util\Filesystem;
+use Skeletor\Util\PathInformation;
+
+/**
+ * Skeleton repository (skeleton closet, skeletons in the closet).
+ */
 class Closet
 {
     private $pathInfo;

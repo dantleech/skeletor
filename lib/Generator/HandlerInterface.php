@@ -9,11 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor;
+namespace Skeletor\Generator;
 
-interface HostingInterface
+interface HandlerInterface
 {
-    public function getRepositoryUrl($org, $repo);
-
-    public function getRawUrl($org, $repo);
+    public function process(NodeContext $context);
 }

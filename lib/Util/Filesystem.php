@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor;
+namespace Skeletor\Util;
 
 use Symfony\Component\Filesystem\Filesystem as BaseFilesystem;
 
@@ -17,6 +17,12 @@ class Filesystem extends BaseFilesystem
 {
     public function get($path)
     {
+        if (!$this->exists($path)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Could not find file "%s"', $path
+            ));
+        }
+
         return file_get_contents($path);
     }
 

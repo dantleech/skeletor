@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor\Handler;
+namespace Skeletor\Generator\Handler;
 
-use Skeletor\Filesystem;
-use Skeletor\HandlerInterface;
-use Skeletor\NodeContext;
+use Skeletor\Generator\HandlerInterface;
+use Skeletor\Generator\NodeContext;
+use Skeletor\Util\Filesystem;
 
 class DirectoryHandler implements HandlerInterface
 {

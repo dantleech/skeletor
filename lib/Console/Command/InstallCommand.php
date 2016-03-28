@@ -42,13 +42,11 @@ Install or update a skeleton.
 NOTE: Only Github repositories are supported right now.
 EOT
         );
-        $this->addArgument('repo', InputArgument::REQUIRED, 'Path to Github skeleton, e.g. dantleech/skeleton.skeleton');
+        $this->addArgument('repo', InputArgument::REQUIRED, 'org/repository for github skeleton, e.g. dantleech/phplib.skel');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(Skeletor::skeletorHeader());
-
         $repo = $input->getArgument('repo');
         $output->writeln('<comment>' . $repo . '</>');
 

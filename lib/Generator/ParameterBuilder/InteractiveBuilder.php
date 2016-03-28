@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor\ParameterBuilder;
+namespace Skeletor\Generator\ParameterBuilder;
 
-use Skeletor\ParameterBuilderInterface;
+use Skeletor\Generator\ParameterBuilderInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

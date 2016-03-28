@@ -21,7 +21,7 @@ class UpdateCommand extends Command
 {
     public function configure()
     {
-        $this->setName('update');
+        $this->setName('self-update');
         $this->setDescription('Update the application');
         $this->addOption('rollback', null, InputOption::VALUE_NONE, 'Rollback version');
     }

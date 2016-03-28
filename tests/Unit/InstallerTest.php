@@ -15,13 +15,12 @@ use Guzzle\Http\Client;
 use Guzzle\Http\Message\Request;
 use Guzzle\Http\Message\Response;
 use Prophecy\Argument;
-use Skeletor\Configuration;
-use Skeletor\Filesystem;
-use Skeletor\HostingInterface;
 use Skeletor\Installer;
-use Skeletor\PathInformation;
-use Skeletor\ProcessFactory;
+use Skeletor\Installer\HostingInterface;
 use Skeletor\Skeletor;
+use Skeletor\Util\Filesystem;
+use Skeletor\Util\PathInformation;
+use Skeletor\Util\ProcessFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -56,8 +55,10 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
         $this->output = $this->prophesize(OutputInterface::class);
         $this->process = $this->prophesize(Process::class);
-        $this->response = $this->prophesize(Response::class);
-        $this->request = $this->prophesize(Request::class);
+        $this->rawResponse = $this->prophesize(Response::class);
+        $this->publicResponse = $this->prophesize(Response::class);
+        $this->rawRequest = $this->prophesize(Request::class);
+        $this->publicRequest = $this->prophesize(Request::class);
     }
 
     private function commonExpectations()
@@ -65,13 +66,20 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->executableFinder->find('git')->willReturn('git');
         $this->pathInfo->getSkeletonDir('org', 'repo')->willReturn('test/path');
 
+        $this->hosting->getPublicUrl('org', 'repo')->willReturn('public/to');
         $this->hosting->getRawUrl('org', 'repo')->willReturn('url/to');
         $this->hosting->getRepositoryUrl('org', 'repo')->willReturn('url/to/repo');
         $this->httpClient->head('url/to/' . Skeletor::CONFIG_NAME . '.json', null, ['exceptions' => false])->willReturn(
-            $this->request->reveal()
+            $this->rawRequest->reveal()
         );
-        $this->request->send()->willReturn(
-            $this->response->reveal()
+        $this->httpClient->head('public/to', null, ['exceptions' => false])->willReturn(
+            $this->publicRequest->reveal()
+        );
+        $this->rawRequest->send()->willReturn(
+            $this->rawResponse->reveal()
+        );
+        $this->publicRequest->send()->willReturn(
+            $this->publicResponse->reveal()
         );
     }
 
@@ -85,13 +93,36 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->exists('test/path')->willReturn(false);
         $this->filesystem->exists('test')->willReturn(false);
         $this->filesystem->mkdir('test')->shouldBeCalled();
-        $this->response->getStatusCode()->willReturn(200);
+        $this->rawResponse->getStatusCode()->willReturn(200);
+        $this->publicResponse->getStatusCode()->willReturn(200);
 
         $this->processFactory->create('git clone url/to/repo test/path')->willReturn(
             $this->process->reveal()
         );
         $this->process->run(Argument::any())->shouldBeCalled();
         $this->process->getExitCode()->shouldBeCalled()->willReturn(0);
+
+        $this->installer->install(
+            $this->output->reveal(),
+            'org', 'repo'
+        );
+    }
+
+    /**
+     * It should throw an exception if the skeletor configuration is not
+     * available in the repository.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Could not find repository
+     */
+    public function testNoRepository()
+    {
+        $this->commonExpectations();
+
+        $this->filesystem->exists('test/path')->willReturn(false);
+        $this->filesystem->exists('test')->willReturn(false);
+        $this->filesystem->mkdir('test')->shouldBeCalled();
+        $this->publicResponse->getStatusCode()->willReturn(404);
 
         $this->installer->install(
             $this->output->reveal(),
@@ -113,7 +144,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->exists('test/path')->willReturn(false);
         $this->filesystem->exists('test')->willReturn(false);
         $this->filesystem->mkdir('test')->shouldBeCalled();
-        $this->response->getStatusCode()->willReturn(404);
+        $this->publicResponse->getStatusCode()->willReturn(200);
+        $this->rawResponse->getStatusCode()->willReturn(404);
 
         $this->installer->install(
             $this->output->reveal(),
