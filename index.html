@@ -12,37 +12,9 @@
     <body>
 
         <h1>Skeletor</h1>
-        <pre class="header">
-                                           . .                  
-                                   ..~:+++:~~..                  
-                              .  .:+=ooo===o==+:~.               
-                               ~+=o===+===========~~ .           
-                             ~+o==============+===o=+.           
-                        . ..~:++ooo=+=========o==:~~~:~..        
-                      . .:=oo+~~~:+===========:~~~:==ooo=~ .     
-                    .. ~==~~~+o=+:~+======+===::=oo=~~..:o: .    
-                   .. .o+.     ~+=ooo=::=+=~+=oo=:~      ~o~ ..  
-                  ... ~o~        .~~~~~~  ~::~..          ==  .  
-                 .... ~o:          .~+. ~~  :+~          ~o=. ...
-                 ...  :o: .~~~~~~~:=o:.~=o:~~=o++::~~~~~.~+o~ ...
-                ...  :=+~+=o==oo======o==========~+ooo=o=+:==. . 
-                ... :===o====o+~~:=========o=====:~~+========+  .
-                .. ~o=======+~~:=oo++~~~~:~::==o===:.~=======o: .
-                .. ~=======~.:oo=~~+~~o:.o+.+.~+=====. :======: .
-                .. ~o====:..=o:~~:~o=~+:.:~~=~=~~~==o:  .+====~ .
-                .   +===~   :::+~o...        .+:o::=~     ~o=:   
-                .   .+=.      ~:                ~~     ~~  ~~    
-                        .:~        ~~~:.~:~~.         .oo+~      
-                      ~:=o:    ..+:~o:=~~=:=~+:~.     +====.     
-                     .oo==:    +::~~:::+++:+::~+:    .=====.     
-                     .=+=o:   ~:+:===o====o====+~~   :==+=:      
-                      =====:::oo=o========+====ooo+:+====o~      
-                      +===================o===============.      
-                     .=========+==o==+++::++==============.      
-                     .o========o=+~..        .~:==o=======~      
-                      :=o=====+:~               .~:=======~      
-                      .~+++~~                     .~:::~        
-</pre>
+        <div class="header">
+            <img src="https://cloud.githubusercontent.com/assets/530801/14147434/64281f88-f693-11e5-983e-478d2869a7a3.gif" />
+        </div>
 
         <h2>Skeletor is a simple universal project skeleton generator</h2>
 		<marquee><a href="https://github.com/dantleech/skeletor">#FORK ME ON GITHUB</a></marquee>
@@ -110,7 +82,7 @@ $ sudo mv skeletor.pubkey /usr/local/bin/skeletor.pubkey</pre>
 		<ul>
 			<li>We defined <code>lib</code> and <code>tests</code> as directories - these will be explicitly created even if they are not in our repository.</li>
 			<li>We define a file map where the array key is the path of the file relative to <code>basedir</code> and the value is an object of options.</li>
-			<li>In the absence of a defined <code>type</code> the type is assumed to be <code>template</code><li>
+			<li>In the absence of a defined <code>type</code> the type is assumed to be <code>template</code></li>
 			<li>We define parameters which can be substituted in files with the <code>template</code> type.</li>
 		</ul>
 
