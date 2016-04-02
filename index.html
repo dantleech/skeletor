@@ -12,21 +12,17 @@
     <body>
 
         <h1>Skeletor</h1>
-        <div class="header">
-            <img src="https://cloud.githubusercontent.com/assets/530801/14147434/64281f88-f693-11e5-983e-478d2869a7a3.gif" />
-        </div>
-
-        <h2>Skeletor is a simple universal project skeleton generator</h2>
+        <h2>A simple universal project skeleton generator</h2>
 		<marquee><a href="https://github.com/dantleech/skeletor">#FORK ME ON GITHUB</a></marquee>
 
         <h3>Introduction</h3>
 
         <p>Skeletor is a universal project skeletor generator.</p>
         <ul>
-            <li>Uses github repositories (<a href="https://github.com/dantleech/phplib.skel">example</a>) as project skeletons.</li>
-            <li>The skeletons are defined in a <code>skeletor.json</code> file.</li>
+            <li>Skeletons are github repositories (<a href="https://github.com/dantleech/phplib.skel">example</a>).</li>
+            <li>Interactive generation.</li>
             <li>Uses simple <code>{{ mustache }}</code> templating.</li>
-            <li>Parameters are defined in the configuration and customized interactively.</li>
+            <li>The skeletons are defined in a <code>skeletor.json</code> file.</li>
         </ul>
 
         <p>Skeletor is for those people that create new projects on a regular basis and often find themselves wasting time copying / writing boilerplate code.</p>
@@ -43,7 +39,7 @@ $ sudo mv skeletor.pubkey /usr/local/bin/skeletor.pubkey</pre>
         <h3>Generate a project</h3>
         <p>First you need to install a project template:</p>
         <pre>$ skeletor install dantleech/phplib.skel</pre>
-        <p>Then you can generate a project:</p>
+        <p>Then you can generate a project interactively:</p>
         <pre>$ skeletor generate</pre>
 
         <h3>Creating your own repositories</h3>
@@ -105,6 +101,11 @@ This is an example template, that was created in {{ date.year }}.</pre>
 			<li><code>{{ date.month }}</code>: The month.</li>
 			<li><code>{{ date.day }}</code>: The day.</li>
         </ul>
+
+        <h3>Wisdom</h3>
+        Skeletor can also provide wisdom:
+        <pre>$ skeletor wisdom
+$ skeletor wisdom -r</pre>
     </body>
 </html>
 
