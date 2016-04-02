@@ -31,18 +31,18 @@
 
         <h3>Installation</h3>
         <p>Install the <a href="https://dantleech.github.io/skeletor/skeletor.phar">phar</a> and the <a href="https://dantleech.github.io/skeletor/skeletor.phar.pubkey">public key</a> (required for self updates)</p>
-        <pre>$ curl -o skeletor.phar https://dantleech.github.io/skeletor/skeletor.phar
-$ curl -o skeletor.phar.pubkey https://dantleech.github.io/skeletor/skeletor.phar.pubkey</pre>
+        <pre>curl -o skeletor.phar https://dantleech.github.io/skeletor/skeletor.phar
+curl -o skeletor.phar.pubkey https://dantleech.github.io/skeletor/skeletor.phar.pubkey</pre>
         <p>Now make the PHAR executable and maybe you want to move it somewhere in your path:</p>
-        <pre>$ chmod a+x skeletor
-$ sudo mv skeletor /usr/local/bin/skeletor
-$ sudo mv skeletor.pubkey /usr/local/bin/skeletor.pubkey</pre>
+        <pre>chmod a+x skeletor.phar
+sudo mv skeletor.phar /usr/local/bin/skeletor
+sudo mv skeletor.phar.pubkey /usr/local/bin/skeletor.pubkey</pre>
 
         <h3>Generate a project</h3>
         <p>First you need to install a project template:</p>
-        <pre>$ skeletor install dantleech/phplib.skel</pre>
+        <pre>skeletor install dantleech/phplib.skel</pre>
         <p>Then you can generate a project interactively:</p>
-        <pre>$ skeletor generate</pre>
+        <pre>skeletor generate</pre>
 
         <h3>Creating your own repositories</h3>
         <p>The easiest way to start is probably just to fork an <a href="https://github.com/dantleech/phplib.ske;">existing repository</a></p>
@@ -106,8 +106,8 @@ This is an example template, that was created in {{ date.year }}.</pre>
 
         <h3>Wisdom</h3>
         Skeletor can also provide wisdom:
-        <pre>$ skeletor wisdom
-$ skeletor wisdom -r</pre>
+        <pre>skeletor wisdom
+skeletor wisdom -r</pre>
     </body>
 </html>
 
