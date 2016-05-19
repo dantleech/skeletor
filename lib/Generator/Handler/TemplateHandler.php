@@ -42,7 +42,6 @@ class TemplateHandler extends FileHandler
 
         $contents = MustacheHelper::replaceTokens($params, $contents);
         $destPath = $this->resolveDstPath($context);
-        var_dump($destPath);
 
         $this->filesystem->dumpFile($destPath, $contents);
     }

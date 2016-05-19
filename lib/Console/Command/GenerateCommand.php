@@ -24,6 +24,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
+use Skeletor\Util\PathHelper;
 
 class GenerateCommand extends Command
 {
@@ -62,7 +63,7 @@ class GenerateCommand extends Command
             list($org, $repo) = Skeletor::parseRepo($repo);
         }
 
-        $targetPath = $input->getArgument('target');
+        $targetPath = PathHelper::normalizePath($input->getArgument('target'));
 
         if (!$targetPath) {
             $question = new Question(sprintf('<question>Install to [</>%s<question>]</>: ', $repo), $repo);
