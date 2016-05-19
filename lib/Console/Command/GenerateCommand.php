@@ -63,12 +63,13 @@ class GenerateCommand extends Command
             list($org, $repo) = Skeletor::parseRepo($repo);
         }
 
-        $targetPath = PathHelper::normalizePath($input->getArgument('target'));
+        $targetPath = $input->getArgument('target');
 
         if (!$targetPath) {
             $question = new Question(sprintf('<question>Install to [</>%s<question>]</>: ', $repo), $repo);
             $targetPath = $this->questionHelper->ask($input, $output, $question);
         }
+        $targetPath = PathHelper::normalizePath($targetPath);
 
         if (false === $this->closet->hasSkeleton($org, $repo)) {
             $output->writeln(sprintf('<error>Skeleton "%s" has not been installed!</>', $repo));
