@@ -14,6 +14,7 @@ namespace Skeletor\Generator\Handler;
 use Skeletor\Generator\HandlerInterface;
 use Skeletor\Generator\NodeContext;
 use Skeletor\Util\Filesystem;
+use Skeletor\Util\MustacheHelper;
 
 class FileHandler implements HandlerInterface
 {
@@ -27,7 +28,7 @@ class FileHandler implements HandlerInterface
         $this->assertSrcFileExists($context);
 
         $srcPath = $context->getAbsSrcPath();
-        $destPath = $context->getAbsDstPath();
+        $destPath = $this->resolveDstPath($context);
 
         // TODO: Handle existing files, currently simply overwriting them.
         $this->filesystem->copy($srcPath, $destPath, true);
@@ -41,5 +42,17 @@ class FileHandler implements HandlerInterface
                 $context->getAbsSrcPath()
             ));
         }
+    }
+
+    protected function resolveDstPath(NodeContext $context)
+    {
+        $config = $context->getNodeConfig();
+
+        if (isset($config['dest'])) {
+            $destPath = MustacheHelper::replaceTokens($context->getParams(), $config['dest']);
+            return $context->getDstRootPath() . DIRECTORY_SEPARATOR . $destPath;
+        }
+
+        return $context->getAbsDstPath();
     }
 }

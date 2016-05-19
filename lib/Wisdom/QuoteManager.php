@@ -61,7 +61,7 @@ class QuoteManager
         $frame = 0;
         $rate = 50000;
         $largestQuote = 0;
-        $quoteChange = 100;
+        $quoteChange = 250;
         $quote = null;
 
         // hide the cursor

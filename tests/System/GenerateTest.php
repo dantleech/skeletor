@@ -35,5 +35,8 @@ class GenerateTest extends SystemTestCase
         $this->assertFileExists($expectedDir . '/LICENSE');
         $this->assertFileExists($expectedDir . '/lib');
         $this->assertFileExists($expectedDir . '/tests');
+
+        // it can use a destination file with tokens
+        $this->assertFileExists($expectedDir . '/composer-Anonymous.json');
     }
 }

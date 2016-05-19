@@ -13,6 +13,7 @@ namespace Skeletor\Generator\Handler;
 
 use Skeletor\Generator\NodeContext;
 use Skeletor\Util\Filesystem;
+use Skeletor\Util\MustacheHelper;
 
 /**
  * Simple template processor, replaces {{ mustache-like }} tokens with
@@ -39,11 +40,10 @@ class TemplateHandler extends FileHandler
             ));
         }
 
-        foreach ($params as $tokenName => $tokenValue) {
-            preg_match('/\{\{\s*' . $tokenName . '\s*\}\}/', $contents, $matches);
-            $contents = str_replace($matches[0], $tokenValue, $contents);
-        }
+        $contents = MustacheHelper::replaceTokens($params, $contents);
+        $destPath = $this->resolveDstPath($context);
+        var_dump($destPath);
 
-        $this->filesystem->dumpFile($context->getAbsDstPath(), $contents);
+        $this->filesystem->dumpFile($destPath, $contents);
     }
 }

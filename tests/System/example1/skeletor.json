@@ -2,7 +2,8 @@
     "title": "Skeletor",
     "params": {
         "project_name": "Skeletor",
-        "namespace": "Skeletor\\"
+        "namespace": "Skeletor\\",
+        "foofoo": "barbar"
     },
     "basedir": "skeletor",
     "nodes": {
@@ -11,6 +12,11 @@
         "nodes": {
             "lib": { "type": "dir" },
             "tests": { "type": "dir" },
+            "dynamic-composer": {
+                "type": "file",
+                "path": "composer.json",
+                "dest": "composer-{{ foofoo }}.json"
+            },
             "composer.json": {},
             "phpunit.xml.dist": {},
             "README.md": {},
