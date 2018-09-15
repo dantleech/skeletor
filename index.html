@@ -71,7 +71,10 @@ sudo mv skeletor.phar.pubkey /usr/local/bin/skeletor.pubkey</pre>
         }
         "LICENSE": {}
         "lib/myfile.txt": {}
-    }
+    },
+    "post_install": [
+        "copmoser require phpunit/phpunit"
+    ]
 }</pre>
  
         <p>Your directory structure should look like this:</p>
@@ -121,6 +124,7 @@ skeletor wisdom -r</pre>
         <h2>Changelog</h2>
         <ul>
             <li><b>2016-05-19</b>: Allow tokenized `dest` target</li>
+            <li><b>2018-09-15</b>: Added support for running arbitrary commands after install / generate</li>
         </ul>
 
     </body>
