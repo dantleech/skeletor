@@ -45,6 +45,10 @@ class Container extends BaseContainer
             );
         };
 
+        $this['command_runner'] = function ($container) {
+            return new CommandRunner();
+        };
+
         $this['closet'] = function ($container) {
             return new Closet(
                 $container['path_info']
@@ -84,6 +88,7 @@ class Container extends BaseContainer
             return new Console\Command\GenerateCommand(
                 $container['generator'],
                 $container['config_loader'],
+                $container['command_runner'],
                 $container['closet']
             );
         };

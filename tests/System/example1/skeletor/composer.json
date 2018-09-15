@@ -1,6 +1,0 @@
-{
-    "autoload": {
-        "psr-4": {
-            "%namespace%": "lib"
-        }
-}
