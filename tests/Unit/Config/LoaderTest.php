@@ -11,10 +11,11 @@
 
 namespace Skeletor\Tests\Unit\Config;
 
+use PHPUnit\Framework\TestCase;
 use Skeletor\Config\Loader;
 use Skeletor\Util\Filesystem;
 
-class LoaderTest extends \PHPUnit_Framework_TestCase
+class LoaderTest extends TestCase
 {
     private $filesystem;
     private $loader;
@@ -84,8 +85,7 @@ EOT;
 
     public function provideDefaults()
     {
-        return [
-            [
+        yield [
                 '{ "title": "Hello", "description": "foobar" }',
                 [
                     'title' => 'Hello',
@@ -94,22 +94,24 @@ EOT;
                     'basedir' => 'skeletor',
                     'files' => [],
                     'repo_dir' => 'hello',
+                    'post_install' => [],
                 ],
-            ],
+        ];
+
+        yield [
+            '{ "title": "Hello", "description": "foobar", "files": { "hello.md": {}}}',
             [
-                '{ "title": "Hello", "description": "foobar", "files": { "hello.md": {}}}',
-                [
-                    'title' => 'Hello',
-                    'description' => 'foobar',
-                    'params' => [],
-                    'basedir' => 'skeletor',
-                    'files' => [
-                        'hello.md' => [
-                            'type' => 'template',
-                        ],
+                'title' => 'Hello',
+                'description' => 'foobar',
+                'params' => [],
+                'basedir' => 'skeletor',
+                'files' => [
+                    'hello.md' => [
+                        'type' => 'template',
                     ],
-                    'repo_dir' => 'hello',
                 ],
+                'repo_dir' => 'hello',
+                'post_install' => [],
             ],
         ];
     }

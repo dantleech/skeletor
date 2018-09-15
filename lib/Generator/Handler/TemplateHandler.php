@@ -12,7 +12,6 @@
 namespace Skeletor\Generator\Handler;
 
 use Skeletor\Generator\NodeContext;
-use Skeletor\Util\Filesystem;
 use Skeletor\Util\MustacheHelper;
 
 /**
@@ -36,7 +35,8 @@ class TemplateHandler extends FileHandler
         if ($diff = array_diff($tokens, array_keys($params))) {
             throw new \InvalidArgumentException(sprintf(
                 'Missing tokens "%s" for skeleton "%s"',
-                implode('", "', $diff), $srcPath
+                implode('", "', $diff),
+                $srcPath
             ));
         }
 

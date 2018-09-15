@@ -11,7 +11,6 @@
 
 namespace Skeletor;
 
-use Skeletor\Console\Application;
 use Symfony\Component\Debug\Debug;
 
 class Skeletor

@@ -1,7 +1,6 @@
 # Skeletor
 
 [![Build Status](https://travis-ci.org/dantleech/skeletor.svg?branch=master)](https://travis-ci.org/dantleech/skeletor)
-[![StyleCI](https://styleci.io/repos/53805100/shield)](https://styleci.io/repos/53805100)
 
 Skeletor is a universal project generator which uses github repositories such
 as [this one](https://github.com/dantleech/phplib.skel) as skeleton

@@ -19,7 +19,8 @@ class Filesystem extends BaseFilesystem
     {
         if (!$this->exists($path)) {
             throw new \InvalidArgumentException(sprintf(
-                'Could not find file "%s"', $path
+                'Could not find file "%s"',
+                $path
             ));
         }
 

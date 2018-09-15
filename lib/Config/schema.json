@@ -35,6 +35,9 @@
                     }
                 }
             }
+        },
+        "post_install": {
+            "type": "array"
         }
 	},
 	"required": [ "title", "description" ]

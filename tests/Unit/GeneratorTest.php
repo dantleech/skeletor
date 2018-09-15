@@ -11,6 +11,7 @@
 
 namespace Skeletor\Tests\Unit;
 
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Skeletor\Generator;
 use Skeletor\Generator\HandlerInterface;
@@ -19,7 +20,7 @@ use Skeletor\Generator\NodeContext;
 use Skeletor\Util\Filesystem;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class GeneratorTest extends \PHPUnit_Framework_TestCase
+class GeneratorTest extends TestCase
 {
     public function setUp()
     {

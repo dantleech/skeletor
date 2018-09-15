@@ -62,6 +62,7 @@ class Loader
             'basedir' => 'skeletor',
             'files' => [],
             'repo_dir' => $repoDir,
+            'post_install' => [],
         ]);
 
         // use "template" as the default type - assuming that this

@@ -12,8 +12,8 @@
 namespace Skeletor\Console\Command;
 
 use Skeletor\Closet;
+use Skeletor\CommandRunner;
 use Skeletor\Config\Loader;
-use Skeletor\ConfigLoader;
 use Skeletor\Generator;
 use Skeletor\Generator\ParameterBuilder\InteractiveBuilder;
 use Skeletor\Skeletor;
@@ -32,9 +32,20 @@ class GenerateCommand extends Command
     private $configLoader;
     private $closet;
 
+    /**
+     * @var CommandRunner
+     */
+    private $commandRunner;
+
+    /**
+     * @var QuestionHelper
+     */
+    private $questionHelper;
+
     public function __construct(
         Generator $generator,
         Loader $configLoader,
+        CommandRunner $commandRunner,
         Closet $closet,
         QuestionHelper $questionHelper = null
     ) {
@@ -43,6 +54,7 @@ class GenerateCommand extends Command
         $this->configLoader = $configLoader;
         $this->closet = $closet;
         $this->questionHelper = $questionHelper ?: new QuestionHelper();
+        $this->commandRunner = $commandRunner;
     }
 
     public function configure()
@@ -92,6 +104,7 @@ class GenerateCommand extends Command
         // TODO: Re-generation should use last-used values.
 
         $this->generator->generate($output, $config, $targetPath, $params);
+        $this->commandRunner->runCommands($output, $targetPath, $config['post_install']);
     }
 
     private function chooseSkeleton($input, $output)

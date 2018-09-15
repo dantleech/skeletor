@@ -11,6 +11,8 @@
 
 namespace Skeletor\Tests\System;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class GenerateTest extends SystemTestCase
 {
     /**
@@ -18,11 +20,7 @@ class GenerateTest extends SystemTestCase
      */
     public function testGenerate()
     {
-        $process = $this->command(
-            'install dantleech/test.skeletor'
-        );
-
-        $this->assertExitCode(0, $process);
+        $process = $this->installTestSkeletor();
 
         $process = $this->command(
             'generate dantleech/test.skeletor --no-interaction'
@@ -30,7 +28,7 @@ class GenerateTest extends SystemTestCase
 
         $this->assertExitCode(0, $process);
 
-        $expectedDir = $this->getWorkspaceDir() . '/test.skeletor';
+        $expectedDir = $this->getWorkspacePath() . '/test.skeletor';
         $this->assertFileExists($expectedDir);
         $this->assertFileExists($expectedDir . '/LICENSE');
         $this->assertFileExists($expectedDir . '/lib');
@@ -38,5 +36,24 @@ class GenerateTest extends SystemTestCase
 
         // it can use a destination file with tokens
         $this->assertFileExists($expectedDir . '/composer-Anonymous.json');
+    }
+
+    private function installTestSkeletor()
+    {
+        $name = 'dantleech/test.skeletor';
+        $filesystem = new Filesystem();
+        $cachePath = $this->getCachePath($name);
+
+        if (file_exists($cachePath = $cachePath)) {
+            $filesystem->mirror($cachePath, $this->getWorkspacePath('skeletor/' . $name));
+            return;
+        }
+
+        $process = $this->command(
+            'install ' . $name
+        );
+
+        $filesystem->mirror($this->getWorkspacePath('skeletor/'. $name), $cachePath);
+        $this->assertExitCode(0, $process);
     }
 }
