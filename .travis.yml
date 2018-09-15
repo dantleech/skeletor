@@ -22,7 +22,7 @@ install:
   - composer install
 
 script:
-  - ./vendor/bin/php-cs-fixer fix
+  - ./vendor/bin/php-cs-fixer fix --dry-run
   - ./vendor/bin/phpunit tests
 
 after_success:
