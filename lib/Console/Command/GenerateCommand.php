@@ -105,7 +105,7 @@ class GenerateCommand extends Command
         // TODO: Re-generation should use last-used values.
 
         $this->generator->generate($output, $config, $targetPath, $params);
-        $this->commandRunner->runCommands($output, $targetPath, $config['post-install']);
+        $this->commandRunner->runCommands($output, $targetPath, $config['post_install']);
     }
 
     private function chooseSkeleton($input, $output)

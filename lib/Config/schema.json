@@ -36,7 +36,7 @@
                 }
             }
         },
-        "post-install": {
+        "post_install": {
             "type": "array"
         }
 	},

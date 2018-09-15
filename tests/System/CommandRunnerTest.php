@@ -17,7 +17,8 @@ class CommandRunnerTest extends SystemTestCase
             'echo "hello world"'
         ]);
         $this->assertEquals(<<<'EOT'
-Executing: echo "hello world" [OK]
+Executing: echo "hello world"
+<skeletor>[out] hello world
 
 EOT
     , $output->fetch());
