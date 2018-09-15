@@ -14,7 +14,6 @@ namespace Skeletor\Console\Command;
 use Skeletor\Closet;
 use Skeletor\CommandRunner;
 use Skeletor\Config\Loader;
-use Skeletor\ConfigLoader;
 use Skeletor\Generator;
 use Skeletor\Generator\ParameterBuilder\InteractiveBuilder;
 use Skeletor\Skeletor;

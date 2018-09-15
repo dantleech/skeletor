@@ -11,10 +11,11 @@
 
 namespace Skeletor\Tests\Unit;
 
-use Guzzle\Http\Client;
-use Guzzle\Http\Message\Request;
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Client;
+use GuzzleHttp\Message\Request;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Psr\Http\Message\ResponseInterface;
 use Skeletor\Installer;
 use Skeletor\Installer\HostingInterface;
 use Skeletor\Skeletor;
@@ -25,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
-class InstallerTest extends \PHPUnit_Framework_TestCase
+class InstallerTest extends TestCase
 {
     private $executableFinder;
     private $filesystem;
@@ -55,8 +56,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
         $this->output = $this->prophesize(OutputInterface::class);
         $this->process = $this->prophesize(Process::class);
-        $this->rawResponse = $this->prophesize(Response::class);
-        $this->publicResponse = $this->prophesize(Response::class);
+        $this->rawResponse = $this->prophesize(ResponseInterface::class);
+        $this->publicResponse = $this->prophesize(ResponseInterface::class);
         $this->rawRequest = $this->prophesize(Request::class);
         $this->publicRequest = $this->prophesize(Request::class);
     }
@@ -69,16 +70,10 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->hosting->getPublicUrl('org', 'repo')->willReturn('public/to');
         $this->hosting->getRawUrl('org', 'repo')->willReturn('url/to');
         $this->hosting->getRepositoryUrl('org', 'repo')->willReturn('url/to/repo');
-        $this->httpClient->head('url/to/' . Skeletor::CONFIG_NAME . '.json', null, ['exceptions' => false])->willReturn(
-            $this->rawRequest->reveal()
-        );
-        $this->httpClient->head('public/to', null, ['exceptions' => false])->willReturn(
-            $this->publicRequest->reveal()
-        );
-        $this->rawRequest->send()->willReturn(
+        $this->httpClient->request('head', 'url/to/' . Skeletor::CONFIG_NAME . '.json', ['exceptions' => false])->willReturn(
             $this->rawResponse->reveal()
         );
-        $this->publicRequest->send()->willReturn(
+        $this->httpClient->request('head', 'public/to', ['exceptions' => false])->willReturn(
             $this->publicResponse->reveal()
         );
     }
@@ -104,7 +99,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
         $this->installer->install(
             $this->output->reveal(),
-            'org', 'repo'
+            'org',
+            'repo'
         );
     }
 
@@ -126,7 +122,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
         $this->installer->install(
             $this->output->reveal(),
-            'org', 'repo'
+            'org',
+            'repo'
         );
     }
 
@@ -149,7 +146,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
         $this->installer->install(
             $this->output->reveal(),
-            'org', 'repo'
+            'org',
+            'repo'
         );
     }
 
@@ -164,7 +162,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->executableFinder->find('git')->willReturn(null);
         $this->installer->install(
             $this->output->reveal(),
-            'org', 'repo'
+            'org',
+            'repo'
         );
     }
 
@@ -183,7 +182,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->process->getExitCode()->shouldBeCalled()->willReturn(0);
         $this->installer->install(
             $this->output->reveal(),
-            'org', 'repo'
+            'org',
+            'repo'
         );
     }
 }

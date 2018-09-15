@@ -11,12 +11,12 @@
 
 namespace Skeletor\Tests\System;
 
+use PHPUnit\Framework\TestCase;
 use Skeletor\Util\Filesystem;
-use Skeletor\Util\PathHelper;
 use Symfony\Component\Process\Process;
 use Webmozart\PathUtil\Path;
 
-class SystemTestCase extends \PHPUnit_Framework_TestCase
+class SystemTestCase extends TestCase
 {
     protected function setUp()
     {
@@ -50,7 +50,8 @@ class SystemTestCase extends \PHPUnit_Framework_TestCase
         $message = '';
         $exitCode = $process->getExitCode();
         if ($code !== $exitCode) {
-            $message = sprintf('OUT: %s, ERR: %s (%s)',
+            $message = sprintf(
+                'OUT: %s, ERR: %s (%s)',
                 $process->getOutput() ?: '~',
                 $process->getErrorOutput() ?: '~',
                 getcwd()

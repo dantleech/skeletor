@@ -42,7 +42,8 @@ class Closet
         if (false === $this->hasSkeleton($org, $repo)) {
             throw new \InvalidArgumentException(sprintf(
                 'Skeleton "%s/%s" has not been installed. Skeletor is not happy. Rawwwww',
-                $org, $repo
+                $org,
+                $repo
             ));
         }
 

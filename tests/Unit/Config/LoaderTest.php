@@ -11,10 +11,11 @@
 
 namespace Skeletor\Tests\Unit\Config;
 
+use PHPUnit\Framework\TestCase;
 use Skeletor\Config\Loader;
 use Skeletor\Util\Filesystem;
 
-class LoaderTest extends \PHPUnit_Framework_TestCase
+class LoaderTest extends TestCase
 {
     private $filesystem;
     private $loader;

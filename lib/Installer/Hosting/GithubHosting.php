@@ -19,7 +19,8 @@ class GithubHosting implements HostingInterface
     {
         return sprintf(
             'https://github.com/%s/%s',
-            $org, $repo
+            $org,
+            $repo
         );
     }
 
@@ -27,7 +28,8 @@ class GithubHosting implements HostingInterface
     {
         return sprintf(
             'https://github.com/%s/%s',
-            $org, $repo
+            $org,
+            $repo
         );
     }
 

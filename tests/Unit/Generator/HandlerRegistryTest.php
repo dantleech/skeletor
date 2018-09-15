@@ -11,10 +11,11 @@
 
 namespace Skeletor\Tests\Unit\Generator;
 
+use PHPUnit\Framework\TestCase;
 use Skeletor\Generator\HandlerInterface;
 use Skeletor\Generator\HandlerRegistry;
 
-class HandlerRegistryTest extends \PHPUnit_Framework_TestCase
+class HandlerRegistryTest extends TestCase
 {
     private $registry;
 

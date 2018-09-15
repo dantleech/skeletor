@@ -27,7 +27,8 @@ class HandlerRegistry
         if (!isset($this->handlers[$name])) {
             throw new \InvalidArgumentException(sprintf(
                 'No handler exists with name "%s", valid handlers: "%s"',
-                $name, implode('", "', array_keys($this->handlers))
+                $name,
+                implode('", "', array_keys($this->handlers))
             ));
         }
 

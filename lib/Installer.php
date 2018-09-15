@@ -11,7 +11,7 @@
 
 namespace Skeletor;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Skeletor\Installer\Hosting\GithubHosting;
 use Skeletor\Installer\HostingInterface;
 use Skeletor\Util\Filesystem;
@@ -114,15 +114,16 @@ class Installer
     {
         $repositoryUrl = $this->hosting->getPublicUrl($org, $repo);
 
-        $response = $this->httpClient->head(
+        $response = $this->httpClient->request(
+            'head',
             $repositoryUrl,
-            null,
             ['exceptions' => false]
-        )->send();
+        );
 
         if (200 !== $response->getStatusCode()) {
             throw new \InvalidArgumentException(sprintf(
-                'Could not find repository at "%s"', $repositoryUrl
+                'Could not find repository at "%s"',
+                $repositoryUrl
             ));
         }
 
@@ -132,12 +133,13 @@ class Installer
             Skeletor::CONFIG_NAME
         );
 
-        $response = $this->httpClient->head($url, null, ['exceptions' => false])->send();
+        $response = $this->httpClient->request('head', $url, ['exceptions' => false]);
 
         if (200 !== $response->getStatusCode()) {
             throw new \InvalidArgumentException(sprintf(
                 'Could not find skeletor configuration file at URL: %s (HTTP status "%s")',
-                $url, $response->getStatusCode()
+                $url,
+                $response->getStatusCode()
             ));
         }
     }

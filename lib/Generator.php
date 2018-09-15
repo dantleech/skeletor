@@ -36,7 +36,8 @@ class Generator
         if (false === $this->filesystem->exists($srcRootPath)) {
             throw new Exception\InvalidSkeletorException(sprintf(
                 'Basedir "%s" does not exist for skeletor "%s"',
-                $srcRootPath, $config['repo_dir']
+                $srcRootPath,
+                $config['repo_dir']
             ));
         }
 

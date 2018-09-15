@@ -36,7 +36,9 @@ class CommandRunner
 
             throw new RuntimeException(sprintf(
                 'Command "%s" failed, exited with %s. %s ',
-                $commandString, $process->getExitCode(), $process->getErrorOutput()
+                $commandString,
+                $process->getExitCode(),
+                $process->getErrorOutput()
             ));
         }
     }
@@ -53,6 +55,5 @@ class CommandRunner
         return $first . PHP_EOL . implode(PHP_EOL, array_map(function ($line) use ($string) {
             return $string . $line;
         }, $lines)) . PHP_EOL;
-
     }
 }

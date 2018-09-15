@@ -34,7 +34,8 @@ class InstallCommand extends Command
     {
         $this->setName('install');
         $this->setDescription('Install or update a skeleton');
-        $this->setHelp(<<<'EOT'
+        $this->setHelp(
+            <<<'EOT'
 Install or update a skeleton.
 
     $ skeletor install <org>/<repo>

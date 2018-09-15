@@ -12,7 +12,6 @@
 namespace Skeletor\Tests\System;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Webmozart\PathUtil\Path;
 
 class GenerateTest extends SystemTestCase
 {
