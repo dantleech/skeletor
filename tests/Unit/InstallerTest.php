@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Skeletor\Installer;
-use Skeletor\Installer\HostingInterface;
+use Skeletor\Installer\Hosting;
 use Skeletor\Skeletor;
 use Skeletor\Util\Filesystem;
 use Skeletor\Util\PathInformation;
@@ -42,7 +42,7 @@ class InstallerTest extends TestCase
         $this->filesystem = $this->prophesize(Filesystem::class);
         $this->processFactory = $this->prophesize(ProcessFactory::class);
         $this->pathInfo = $this->prophesize(PathInformation::class);
-        $this->hosting = $this->prophesize(HostingInterface::class);
+        $this->hosting = $this->prophesize(Hosting::class);
         $this->httpClient = $this->prophesize(Client::class);
 
         $this->installer = new Installer(

@@ -13,7 +13,7 @@ namespace Skeletor;
 
 use GuzzleHttp\Client;
 use Skeletor\Installer\Hosting\GithubHosting;
-use Skeletor\Installer\HostingInterface;
+use Skeletor\Installer\Hosting;
 use Skeletor\Util\Filesystem;
 use Skeletor\Util\PathInformation;
 use Skeletor\Util\ProcessFactory;
@@ -31,7 +31,7 @@ class Installer
 
     public function __construct(
         PathInformation $pathInfo,
-        HostingInterface $hosting = null,
+        Hosting $hosting = null,
         Filesystem $filesystem = null,
         ExecutableFinder $executableFinder = null,
         ProcessFactory $processFactory = null,

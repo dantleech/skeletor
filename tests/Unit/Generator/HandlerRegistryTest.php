@@ -12,7 +12,7 @@
 namespace Skeletor\Tests\Unit\Generator;
 
 use PHPUnit\Framework\TestCase;
-use Skeletor\Generator\HandlerInterface;
+use Skeletor\Generator\Handler;
 use Skeletor\Generator\HandlerRegistry;
 
 class HandlerRegistryTest extends TestCase
@@ -21,8 +21,8 @@ class HandlerRegistryTest extends TestCase
 
     public function setUp()
     {
-        $this->handler1 = $this->prophesize(HandlerInterface::class);
-        $this->handler2 = $this->prophesize(HandlerInterface::class);
+        $this->handler1 = $this->prophesize(Handler::class);
+        $this->handler2 = $this->prophesize(Handler::class);
 
         $this->registry = new HandlerRegistry([
             'foo' => $this->handler1->reveal(),

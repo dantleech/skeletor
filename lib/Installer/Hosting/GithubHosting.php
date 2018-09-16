@@ -11,9 +11,9 @@
 
 namespace Skeletor\Installer\Hosting;
 
-use Skeletor\Installer\HostingInterface;
+use Skeletor\Installer\Hosting;
 
-class GithubHosting implements HostingInterface
+class GithubHosting implements Hosting
 {
     public function getRepositoryUrl($org, $repo)
     {

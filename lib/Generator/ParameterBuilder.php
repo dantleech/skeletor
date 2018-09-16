@@ -11,7 +11,10 @@
 
 namespace Skeletor\Generator;
 
-interface HandlerInterface
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+interface ParameterBuilder
 {
-    public function process(NodeContext $context);
+    public function build(InputInterface $input, OutputInterface $output, array $paramConfig);
 }

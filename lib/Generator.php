@@ -11,6 +11,7 @@
 
 namespace Skeletor;
 
+use Skeletor\Generator\Exception\InvalidSkeletor;
 use Skeletor\Generator\HandlerRegistry;
 use Skeletor\Generator\NodeContext;
 use Skeletor\Util\Filesystem;
@@ -34,7 +35,7 @@ class Generator
         $srcRootPath = $config['repo_dir'] . DIRECTORY_SEPARATOR . $config['basedir'];
 
         if (false === $this->filesystem->exists($srcRootPath)) {
-            throw new Exception\InvalidSkeletorException(sprintf(
+            throw new InvalidSkeletor(sprintf(
                 'Basedir "%s" does not exist for skeletor "%s"',
                 $srcRootPath,
                 $config['repo_dir']

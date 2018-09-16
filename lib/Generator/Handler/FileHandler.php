@@ -11,13 +11,13 @@
 
 namespace Skeletor\Generator\Handler;
 
-use Skeletor\Generator\HandlerInterface;
+use Skeletor\Generator\Handler;
 use Skeletor\Generator\NodeContext;
 use Skeletor\Generator\TemplateEngine;
 use Skeletor\Util\Filesystem;
 use Skeletor\Util\MustacheHelper;
 
-class FileHandler implements HandlerInterface
+class FileHandler implements Handler
 {
     /**
      * @var Filesystem
