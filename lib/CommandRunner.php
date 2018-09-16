@@ -3,11 +3,22 @@
 namespace Skeletor;
 
 use RuntimeException;
+use Skeletor\Util\ProcessFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 class CommandRunner
 {
+    /**
+     * @var ProcessFactory
+     */
+    private $processFactory;
+
+    public function __construct(?ProcessFactory $processFactory = null)
+    {
+        $this->processFactory = $processFactory ?: new ProcessFactory();
+    }
+
     public function runCommands(OutputInterface $output, string $workingDirectory, array $commands)
     {
         if (empty($commands)) {
@@ -16,8 +27,7 @@ class CommandRunner
         $output->write(PHP_EOL);
         foreach ($commands as $commandString) {
             $output->writeln('<info>Executing:</> ' . $commandString);
-            $process = new Process($commandString);
-            $process->setWorkingDirectory($workingDirectory);
+            $process = $this->processFactory->create($commandString, $workingDirectory);
             $process->run(function ($type, $text) use ($output) {
                 $text = trim($text, PHP_EOL);
                 $output->write(sprintf(
