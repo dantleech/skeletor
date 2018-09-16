@@ -14,7 +14,8 @@ namespace Skeletor\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Skeletor\Generator;
-use Skeletor\Generator\HandlerInterface;
+use Skeletor\Generator\Exception\InvalidSkeletor;
+use Skeletor\Generator\Handler;
 use Skeletor\Generator\HandlerRegistry;
 use Skeletor\Generator\NodeContext;
 use Skeletor\Util\Filesystem;
@@ -33,19 +34,15 @@ class GeneratorTest extends TestCase
             $this->filesystem->reveal()
         );
 
-        $this->handler1 = $this->prophesize(HandlerInterface::class);
-        $this->handler2 = $this->prophesize(HandlerInterface::class);
-        $this->handler3 = $this->prophesize(HandlerInterface::class);
+        $this->handler1 = $this->prophesize(Handler::class);
+        $this->handler2 = $this->prophesize(Handler::class);
+        $this->handler3 = $this->prophesize(Handler::class);
     }
 
-    /**
-     * It should throw an exception if the basedir of the skeletor does not exist.
-     *
-     * @expectedException Skeletor\Exception\InvalidSkeletorException
-     * @expectedExceptionMessage Basedir "/path/to/noexist" does not exist for skeletor
-     */
     public function testSkeletorBasedirNotExist()
     {
+        $this->expectException(InvalidSkeletor::class);
+        $this->expectExceptionMessage('does not exist');
         $this->filesystem->exists('/path/to/noexist')->willReturn(false);
 
         $this->generator->generate(

@@ -35,7 +35,7 @@ class HandlerRegistry
         return $this->handlers[$name];
     }
 
-    private function addHandler($name, HandlerInterface $handler)
+    private function addHandler($name, Handler $handler)
     {
         $this->handlers[$name] = $handler;
     }

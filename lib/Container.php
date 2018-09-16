@@ -12,6 +12,7 @@
 namespace Skeletor;
 
 use Pimple\Container as BaseContainer;
+use Skeletor\Generator\TemplateEngine\TwigTemplateEngine;
 use Skeletor\Wisdom\QuoteManager;
 
 class Container extends BaseContainer
@@ -25,6 +26,7 @@ class Container extends BaseContainer
     private function configure()
     {
         $this->configureCore();
+        $this->configureHandlers();
         $this->configureConsole();
         $this->configureWisdom();
     }
@@ -61,24 +63,8 @@ class Container extends BaseContainer
             );
         };
 
-        $this['handler.file'] = function ($container) {
-            return new Generator\Handler\FileHandler();
-        };
-
-        $this['handler.dir'] = function ($container) {
-            return new Generator\Handler\DirectoryHandler();
-        };
-
-        $this['handler.template'] = function ($container) {
-            return new Generator\Handler\TemplateHandler();
-        };
-
-        $this['handler_registry'] = function ($container) {
-            return new Generator\HandlerRegistry([
-                'file' => $container['handler.file'],
-                'dir' => $container['handler.dir'],
-                'template' => $container['handler.template'],
-            ]);
+        $this['template_engine'] = function ($container) {
+            return new TwigTemplateEngine();
         };
     }
 
@@ -123,6 +109,29 @@ class Container extends BaseContainer
     {
         $this['wisdom.quote_manager'] = function ($container) {
             return new QuoteManager();
+        };
+    }
+
+    private function configureHandlers()
+    {
+        $this['handler.file'] = function ($container) {
+            return new Generator\Handler\FileHandler();
+        };
+        
+        $this['handler.dir'] = function ($container) {
+            return new Generator\Handler\DirectoryHandler();
+        };
+        
+        $this['handler.template'] = function ($container) {
+            return new Generator\Handler\TemplateHandler($container['template_engine']);
+        };
+        
+        $this['handler_registry'] = function ($container) {
+            return new Generator\HandlerRegistry([
+                'file' => $container['handler.file'],
+                'dir' => $container['handler.dir'],
+                'template' => $container['handler.template'],
+            ]);
         };
     }
 }

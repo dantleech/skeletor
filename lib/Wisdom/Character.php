@@ -11,7 +11,7 @@
 
 namespace Skeletor\Wisdom;
 
-interface CharacterInterface
+interface Character
 {
     /**
      * Return the ascii representation of the characters face.

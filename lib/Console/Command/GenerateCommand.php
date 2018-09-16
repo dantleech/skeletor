@@ -97,9 +97,7 @@ class GenerateCommand extends Command
 
         // TODO: There should be a parameter processor or similar which handles
         //       adding parameters inferred from the environment.
-        $params['date.year'] = date('Y');
-        $params['date.month'] = date('m');
-        $params['date.day'] = date('d');
+        $params['date'] = new \DateTimeImmutable();
 
         // TODO: Re-generation should use last-used values.
 

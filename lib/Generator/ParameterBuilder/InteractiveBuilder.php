@@ -11,13 +11,13 @@
 
 namespace Skeletor\Generator\ParameterBuilder;
 
-use Skeletor\Generator\ParameterBuilderInterface;
+use Skeletor\Generator\ParameterBuilder;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class InteractiveBuilder implements ParameterBuilderInterface
+class InteractiveBuilder implements ParameterBuilder
 {
     /**
      * @var QuestionHelper

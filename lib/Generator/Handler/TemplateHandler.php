@@ -11,8 +11,10 @@
 
 namespace Skeletor\Generator\Handler;
 
+use Exception;
+use Skeletor\Generator\Exception\CouldNotRenderTemplate;
 use Skeletor\Generator\NodeContext;
-use Skeletor\Util\MustacheHelper;
+use Skeletor\Generator\TemplateEngine;
 
 /**
  * Simple template processor, replaces {{ mustache-like }} tokens with
@@ -20,6 +22,14 @@ use Skeletor\Util\MustacheHelper;
  */
 class TemplateHandler extends FileHandler
 {
+    private $engine;
+
+    public function __construct(TemplateEngine $engine, ?Filesystem $filesystem = null)
+    {
+        parent::__construct($filesystem);
+        $this->engine = $engine;
+    }
+
     public function process(NodeContext $context)
     {
         $this->assertSrcFileExists($context);
@@ -29,18 +39,15 @@ class TemplateHandler extends FileHandler
 
         $contents = file_get_contents($srcPath);
 
-        preg_match_all('/\{{\s*(.*?)\s*}}/', $contents, $matches);
-        $tokens = $matches[1];
-
-        if ($diff = array_diff($tokens, array_keys($params))) {
-            throw new \InvalidArgumentException(sprintf(
-                'Missing tokens "%s" for skeleton "%s"',
-                implode('", "', $diff),
+        try {
+            $contents = $this->engine->render($contents, $params);
+        } catch (Exception $e) {
+            throw new CouldNotRenderTemplate(sprintf(
+                'Could not render template "%s"',
                 $srcPath
-            ));
+            ), 0, $e);
         }
 
-        $contents = MustacheHelper::replaceTokens($params, $contents);
         $destPath = $this->resolveDstPath($context);
 
         $this->filesystem->dumpFile($destPath, $contents);

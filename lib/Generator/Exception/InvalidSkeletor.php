@@ -9,13 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Skeletor\Installer;
+namespace Skeletor\Generator\Exception;
 
-interface HostingInterface
+use Exception;
+
+class InvalidSkeletor extends Exception
 {
-    public function getRepositoryUrl($org, $repo);
-
-    public function getRawUrl($org, $repo);
-
-    public function getPublicUrl($org, $repo);
 }

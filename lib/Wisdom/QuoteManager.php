@@ -20,7 +20,7 @@ class QuoteManager
     private $character;
     private $filesystem;
 
-    public function __construct(CharacterInterface $character = null, Filesystem $filesystem = null)
+    public function __construct(Character $character = null, Filesystem $filesystem = null)
     {
         $this->character = $character ?: new Skeletor();
         $this->filesystem = $filesystem ?: new Filesystem();

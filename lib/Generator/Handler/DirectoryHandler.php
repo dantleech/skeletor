@@ -11,11 +11,11 @@
 
 namespace Skeletor\Generator\Handler;
 
-use Skeletor\Generator\HandlerInterface;
+use Skeletor\Generator\Handler;
 use Skeletor\Generator\NodeContext;
 use Skeletor\Util\Filesystem;
 
-class DirectoryHandler implements HandlerInterface
+class DirectoryHandler implements Handler
 {
     private $filesystem;
 
