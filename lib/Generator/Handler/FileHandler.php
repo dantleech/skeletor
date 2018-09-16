@@ -13,9 +13,7 @@ namespace Skeletor\Generator\Handler;
 
 use Skeletor\Generator\Handler;
 use Skeletor\Generator\NodeContext;
-use Skeletor\Generator\TemplateEngine;
 use Skeletor\Util\Filesystem;
-use Skeletor\Util\MustacheHelper;
 
 class FileHandler implements Handler
 {

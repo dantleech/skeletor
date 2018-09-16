@@ -14,9 +14,6 @@ namespace Skeletor;
 use Pimple\Container as BaseContainer;
 use Skeletor\Generator\TemplateEngine\TwigTemplateEngine;
 use Skeletor\Wisdom\QuoteManager;
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
-use Skeletor\Generator\Handler\TemplateHandler;
 
 class Container extends BaseContainer
 {

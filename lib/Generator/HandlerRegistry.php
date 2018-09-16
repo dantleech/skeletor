@@ -11,8 +11,6 @@
 
 namespace Skeletor\Generator;
 
-use Skeletor\Generator\Handler;
-
 class HandlerRegistry
 {
     private $handlers = [];

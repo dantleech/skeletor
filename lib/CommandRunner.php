@@ -5,7 +5,6 @@ namespace Skeletor;
 use RuntimeException;
 use Skeletor\Util\ProcessFactory;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 class CommandRunner
 {

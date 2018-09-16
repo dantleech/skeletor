@@ -11,7 +11,6 @@
 
 namespace Skeletor\Console\Command;
 
-use DateTimeImmutable;
 use Skeletor\Closet;
 use Skeletor\CommandRunner;
 use Skeletor\Config\Loader;

@@ -15,7 +15,6 @@ use Exception;
 use Skeletor\Generator\Exception\CouldNotRenderTemplate;
 use Skeletor\Generator\NodeContext;
 use Skeletor\Generator\TemplateEngine;
-use Twig\Environment;
 
 /**
  * Simple template processor, replaces {{ mustache-like }} tokens with
@@ -44,7 +43,8 @@ class TemplateHandler extends FileHandler
             $contents = $this->engine->render($contents, $params);
         } catch (Exception $e) {
             throw new CouldNotRenderTemplate(sprintf(
-                'Could not render template "%s"', $srcPath
+                'Could not render template "%s"',
+                $srcPath
             ), 0, $e);
         }
 

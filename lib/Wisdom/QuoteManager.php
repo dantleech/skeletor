@@ -14,7 +14,6 @@ namespace Skeletor\Wisdom;
 use Skeletor\Util\Filesystem;
 use Skeletor\Wisdom\Character\Skeletor;
 use Symfony\Component\Console\Output\OutputInterface;
-use Skeletor\Wisdom\Character;
 
 class QuoteManager
 {
