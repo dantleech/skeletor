@@ -11,6 +11,8 @@
 
 namespace Skeletor\Generator\Handler;
 
+use Exception;
+use Skeletor\Generator\Exception\CouldNotRenderTemplate;
 use Skeletor\Generator\NodeContext;
 use Skeletor\Generator\TemplateEngine;
 use Twig\Environment;
@@ -37,7 +39,14 @@ class TemplateHandler extends FileHandler
         $params = $context->getParams();
 
         $contents = file_get_contents($srcPath);
-        $contents = $this->engine->render($contents, $params);
+
+        try {
+            $contents = $this->engine->render($contents, $params);
+        } catch (Exception $e) {
+            throw new CouldNotRenderTemplate(sprintf(
+                'Could not render template "%s"', $srcPath
+            ), 0, $e);
+        }
 
         $destPath = $this->resolveDstPath($context);
 
