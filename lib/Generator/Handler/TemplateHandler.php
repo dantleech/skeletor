@@ -12,7 +12,8 @@
 namespace Skeletor\Generator\Handler;
 
 use Skeletor\Generator\NodeContext;
-use Skeletor\Util\MustacheHelper;
+use Skeletor\Generator\TemplateEngine;
+use Twig\Environment;
 
 /**
  * Simple template processor, replaces {{ mustache-like }} tokens with
@@ -20,6 +21,14 @@ use Skeletor\Util\MustacheHelper;
  */
 class TemplateHandler extends FileHandler
 {
+    private $engine;
+
+    public function __construct(TemplateEngine $engine, ?Filesystem $filesystem = null)
+    {
+        parent::__construct($filesystem);
+        $this->engine = $engine;
+    }
+
     public function process(NodeContext $context)
     {
         $this->assertSrcFileExists($context);
@@ -28,19 +37,8 @@ class TemplateHandler extends FileHandler
         $params = $context->getParams();
 
         $contents = file_get_contents($srcPath);
+        $contents = $this->engine->render($contents, $params);
 
-        preg_match_all('/\{{\s*(.*?)\s*}}/', $contents, $matches);
-        $tokens = $matches[1];
-
-        if ($diff = array_diff($tokens, array_keys($params))) {
-            throw new \InvalidArgumentException(sprintf(
-                'Missing tokens "%s" for skeleton "%s"',
-                implode('", "', $diff),
-                $srcPath
-            ));
-        }
-
-        $contents = MustacheHelper::replaceTokens($params, $contents);
         $destPath = $this->resolveDstPath($context);
 
         $this->filesystem->dumpFile($destPath, $contents);

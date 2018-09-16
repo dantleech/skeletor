@@ -13,12 +13,18 @@ namespace Skeletor\Generator\Handler;
 
 use Skeletor\Generator\HandlerInterface;
 use Skeletor\Generator\NodeContext;
+use Skeletor\Generator\TemplateEngine;
 use Skeletor\Util\Filesystem;
 use Skeletor\Util\MustacheHelper;
 
 class FileHandler implements HandlerInterface
 {
-    public function __construct(Filesystem $filesystem = null)
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    public function __construct(?Filesystem $filesystem = null)
     {
         $this->filesystem = $filesystem ?: new Filesystem();
     }
@@ -49,7 +55,6 @@ class FileHandler implements HandlerInterface
         $config = $context->getNodeConfig();
 
         if (isset($config['dest'])) {
-            $destPath = MustacheHelper::replaceTokens($context->getParams(), $config['dest']);
             return $context->getDstRootPath() . DIRECTORY_SEPARATOR . $destPath;
         }
 

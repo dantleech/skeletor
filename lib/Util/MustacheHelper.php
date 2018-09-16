@@ -8,6 +8,7 @@ class MustacheHelper
     {
         foreach ($tokens as $tokenName => $tokenValue) {
             preg_match('/\{\{\s*' . $tokenName . '\s*\}\}/', $contents, $matches);
+
             $contents = str_replace($matches[0], $tokenValue, $contents);
         }
 
